@@ -179,3 +179,126 @@ def poisson_log_pmf(k: np.ndarray, mean: np.ndarray) -> np.ndarray:
     mean = np.maximum(np.asarray(mean, dtype=float), 1e-12)
     log_fact = np.vectorize(lambda v: lgamma(v + 1.0))(k)
     return k * np.log(mean) - mean - log_fact
+
+
+# ------------------------------------------------------------------------------------
+# Kernel density estimate (KDE) alternative to the grid
+# ------------------------------------------------------------------------------------
+_erf = np.vectorize(__import__("math").erf)
+
+
+def _gaussian_mass_1d(lo: np.ndarray, hi: np.ndarray, mean: np.ndarray, sigma: float) -> np.ndarray:
+    """Probability mass of N(mean, sigma^2) inside [lo, hi], elementwise (broadcasting)."""
+    s = sigma * np.sqrt(2.0)
+    return 0.5 * (_erf((hi - mean) / s) - _erf((lo - mean) / s))
+
+
+@dataclass
+class KDEBirthModel:
+    """Poisson birth process whose spatial intensity is a Gaussian kernel density.
+
+    Every training arrival at x_i contributes a 2D Gaussian bump of width
+    `bandwidth` (same in x and y), truncated to `bounds` and renormalised so each
+    bump has unit mass inside the scene. The intensity is
+
+        lambda(x) = (1 - uniform_mix) * (1 / duration) * sum_i K_i(x)
+                    + uniform_mix * total_rate / area(bounds)
+
+    so it integrates to `total_rate` over the scene exactly like `GridBirthModel`,
+    and the two models differ only in how they spread that rate in space.
+    The bandwidth plays the role the cell size plays for the grid.
+    """
+
+    centers: np.ndarray  # (N, 2) training arrival positions
+    bandwidth: float
+    bounds: Bounds
+    duration: float
+    uniform_mix: float = 0.05
+
+    @classmethod
+    def fit(
+        cls,
+        positions: np.ndarray,
+        duration: float,
+        bounds: Bounds,
+        bandwidth: float = 1.0,
+        uniform_mix: float = 0.05,
+    ) -> "KDEBirthModel":
+        """'Fitting' a KDE is storing the points; the bandwidth is a user choice."""
+        return cls(centers=np.asarray(positions, dtype=float).reshape(-1, 2), bandwidth=bandwidth,
+                   bounds=bounds, duration=duration, uniform_mix=uniform_mix)
+
+    # ---- basic quantities -----------------------------------------------------------
+    @property
+    def total_rate(self) -> float:
+        return len(self.centers) / self.duration
+
+    @property
+    def area(self) -> float:
+        x_min, x_max, y_min, y_max = self.bounds
+        return (x_max - x_min) * (y_max - y_min)
+
+    def _kernel_mass(self, region: Bounds) -> np.ndarray:
+        """(N,) mass of each (untruncated) kernel inside `region`."""
+        x_min, x_max, y_min, y_max = region
+        mx = _gaussian_mass_1d(x_min, x_max, self.centers[:, 0], self.bandwidth)
+        my = _gaussian_mass_1d(y_min, y_max, self.centers[:, 1], self.bandwidth)
+        return mx * my
+
+    def intensity(self, positions: np.ndarray) -> np.ndarray:
+        """lambda(x, y) in arrivals / s / m^2 at each query point."""
+        q = np.asarray(positions, dtype=float).reshape(-1, 2)
+        d2 = ((q[:, None, :] - self.centers[None, :, :]) ** 2).sum(axis=-1)  # (M, N)
+        kernel = np.exp(-0.5 * d2 / self.bandwidth**2) / (2.0 * np.pi * self.bandwidth**2)
+        kernel = kernel / self._kernel_mass(self.bounds)[None, :]  # truncate + renormalise
+        kde = kernel.sum(axis=1) / self.duration
+        return (1.0 - self.uniform_mix) * kde + self.uniform_mix * self.total_rate / self.area
+
+    # ---- the two functions the planner needs --------------------------------------
+    def expected_count(self, duration: float, region: Optional[Bounds] = None) -> float:
+        """Expected births in `region` during `duration` seconds (closed form via erf)."""
+        if region is None:
+            return self.total_rate * duration
+        x_min, x_max, y_min, y_max = region
+        bx0, bx1, by0, by1 = self.bounds
+        clipped = (max(x_min, bx0), min(x_max, bx1), max(y_min, by0), min(y_max, by1))
+        if clipped[0] >= clipped[1] or clipped[2] >= clipped[3]:
+            return 0.0
+        frac = self._kernel_mass(clipped) / self._kernel_mass(self.bounds)  # per-kernel fraction in region
+        kde_part = (1.0 - self.uniform_mix) * frac.sum() / self.duration
+        area_r = (clipped[1] - clipped[0]) * (clipped[3] - clipped[2])
+        unif_part = self.uniform_mix * self.total_rate * area_r / self.area
+        return float(duration * (kde_part + unif_part))
+
+    def sample(self, duration: float, rng: Optional[np.random.Generator] = None) -> BirthSample:
+        """N ~ Poisson(lam * T); each birth is either a uniform point (prob. uniform_mix)
+        or a random training arrival plus Gaussian noise, re-drawn if it lands outside."""
+        rng = np.random.default_rng() if rng is None else rng
+        n = rng.poisson(self.total_rate * duration)
+        x_min, x_max, y_min, y_max = self.bounds
+        out = np.empty((n, 2))
+        for k in range(n):
+            if rng.uniform() < self.uniform_mix:
+                out[k] = rng.uniform([x_min, y_min], [x_max, y_max])
+                continue
+            while True:
+                p = self.centers[rng.integers(len(self.centers))] + rng.normal(0.0, self.bandwidth, size=2)
+                if x_min <= p[0] < x_max and y_min <= p[1] < y_max:
+                    out[k] = p
+                    break
+        return BirthSample(times=np.sort(rng.uniform(0.0, duration, size=n)), positions=out)
+
+    # ---- scoring --------------------------------------------------------------------
+    def log_likelihood(self, positions: np.ndarray, duration: float) -> float:
+        """sum_i log lambda(x_i) - duration * lam, as for the grid model."""
+        positions = np.asarray(positions, dtype=float).reshape(-1, 2)
+        return float(np.log(self.intensity(positions)).sum() - duration * self.total_rate)
+
+    def region_counts(self, duration: float, region_size: float) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """Expected counts on a `region_size`-meter grid covering the scene (same layout as the grid model)."""
+        rx, ry = GridBirthModel.make_edges(self.bounds, region_size)
+        expected = np.array(
+            [[self.expected_count(duration, (rx[a], rx[a + 1], ry[b], ry[b + 1])) for b in range(len(ry) - 1)]
+             for a in range(len(rx) - 1)]
+        )
+        return rx, ry, expected

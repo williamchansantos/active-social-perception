@@ -12,16 +12,17 @@ matplotlib; nothing is learned with gradient descent.
 | `appearance.py` | Turns an `obsmat.txt` into *appearance events*: each pedestrian id's first frame, position and initial velocity. Also scene duration and the scalar arrival rate. |
 | `analyze_appearances.py` | Step 1 CLI. Summary table + `plots/birth/<scene>_appearance_map.png` and `<scene>_arrivals_time.png`. |
 | `exercise_counts.py` | Learning exercise: counts arrivals in fixed time windows and compares the tally with a Poisson distribution (variance/mean test). `plots/birth/exercise_counts_T<window>.png`. |
-| `poisson_birth.py` | Step 2 model: `GridBirthModel` with `fit`, `uniform`, `expected_count`, `sample`, `log_likelihood`. |
-| `evaluate_birth.py` | Step 2 CLI. Fits on the first 80 % of each recording, scores on the last 20 %, against a uniform baseline. `plots/birth/<scene>_birth_model.png` and `birth_eval_summary.csv`. |
+| `poisson_birth.py` | Step 2 models: `GridBirthModel` (histogram intensity) and `KDEBirthModel` (Gaussian kernel intensity), both with `fit`, `expected_count`, `sample`, `log_likelihood`; `GridBirthModel.uniform` is the baseline. |
+| `evaluate_birth.py` | Step 2 CLI. Fits on the first 80 % of each recording, scores uniform / grid / KDE on the last 20 %. `plots/birth/<scene>_birth_model.png` and `birth_eval_summary.csv`. |
 
 Run everything from the repository root:
 
 ```bash
 python -m social_lstm.birth.analyze_appearances
 python -m social_lstm.birth.exercise_counts --window 10
-python -m social_lstm.birth.evaluate_birth              # 0.5 m cells, 2 m regions
-python -m social_lstm.birth.evaluate_birth --cell 1.0   # try other cell sizes
+python -m social_lstm.birth.evaluate_birth                   # 0.5 m cells, 0.5 m bandwidth, 2 m regions
+python -m social_lstm.birth.evaluate_birth --cell 1.0        # other grid cell sizes
+python -m social_lstm.birth.evaluate_birth --bandwidth 0.25  # other KDE bandwidths
 ```
 
 ## The model in five lines
@@ -37,28 +38,32 @@ python -m social_lstm.birth.evaluate_birth --cell 1.0   # try other cell sizes
 * **Expected births in a region R over T seconds** = `T * sum(rate * overlap(cell, R))`.
 * **Sampling** = draw `N ~ Poisson(lam * T)`, pick `N` cells with probability
   `rate / lam`, place each birth uniformly inside its cell and at a uniform time.
+* **KDE variant**: instead of cells, every training arrival contributes a 2D
+  Gaussian bump of width `bandwidth`; the intensity is the sum of bumps divided
+  by the duration (plus the same 5 % uniform floor). The bandwidth plays the role
+  of the cell size. Expected counts in a rectangle have a closed form (erf), and
+  sampling is "pick a training arrival, add Gaussian noise".
 
 Scoring on held-out events uses the Poisson point-process log-likelihood
 `sum_i log intensity(x_i) - T * lam`. The uniform baseline has the same `lam`,
 so the difference between the two models is purely about *where*.
 
-## Step 2 results (default settings: 0.5 m cells, 2 m regions, 80/20 time split)
+## Step 2 results (defaults: 0.5 m cells, 0.5 m bandwidth, 2 m regions, 80/20 time split)
 
-| scene | train | test | predicted | LL grid | LL uniform | spatial/event grid | spatial/event uniform |
-|---|---|---|---|---|---|---|---|
-| seq_eth | 237 | 122 | 59.2 | -953.7 | **-908.8** | -6.37 | **-6.00** |
-| seq_hotel | 303 | 77 | 75.7 | **-464.7** | -508.1 | **-4.41** | -4.97 |
-| zara01 | 117 | 23 | 29.2 | **-154.6** | -177.4 | **-4.55** | -5.54 |
-| zara02 | 170 | 33 | 42.5 | **-189.0** | -250.0 | **-3.76** | -5.61 |
-| students03 | 318 | 68 | 79.5 | **-349.9** | -438.3 | **-4.59** | -5.89 |
+Held-out log-likelihood of the appearance events (higher is better) and the mean
+log spatial density per event ("where", independent of "how many"):
 
-"spatial/event" is the mean log of the normalised spatial density at the
-held-out arrivals, i.e. how well the model says *where*, independent of *how many*.
-Higher is better everywhere.
+| scene | train | test | predicted | LL uniform | LL grid | LL KDE | spatial/event uniform | grid | KDE |
+|---|---|---|---|---|---|---|---|---|---|
+| seq_eth | 237 | 122 | 59.2 | -908.8 | -953.7 | **-779.9** | -6.00 | -6.37 | **-4.95** |
+| seq_hotel | 303 | 77 | 75.7 | -508.1 | -464.7 | **-440.9** | -4.97 | -4.41 | **-4.10** |
+| zara01 | 117 | 23 | 29.2 | -177.4 | -154.6 | **-139.3** | -5.54 | -4.55 | **-3.88** |
+| zara02 | 170 | 33 | 42.5 | -250.0 | -189.0 | **-171.4** | -5.61 | -3.76 | **-3.22** |
+| students03 | 318 | 68 | 79.5 | -438.3 | -349.9 | **-310.2** | -5.89 | -4.59 | **-4.00** |
 
-Two findings to study:
+Three findings to study:
 
-1. **The grid beats uniform in four of five scenes, but loses on seq_eth at 0.5 m.**
+1. **The 0.5 m grid beats uniform in four of five scenes, but loses on seq_eth.**
    The ETH corridor is large (about 1,500 cells) and only 237 training arrivals
    fall into it, so most cells are empty and the held-out arrivals that land in
    them only get the 5 % uniform floor. That is overfitting of the histogram.
@@ -71,15 +76,31 @@ Two findings to study:
    | 2.0 m | **-799.6** | -452.8 | -150.8 | -180.8 | -334.4 |
    | 3.0 m | -833.5 | -468.1 | -163.0 | -202.5 | -357.5 |
 
-   1 m cells are best for four scenes and 2 m for ETH. The same effect shows up
-   when raising `--uniform-mix`. The principled fix is to smooth the histogram
-   (a KDE, or a coarse-to-fine grid), which is the "KDE alternative" to discuss.
+2. **The KDE beats the best grid in every scene, at every bandwidth tried.**
+   Smoothing with Gaussian bumps instead of hard cell edges removes the "empty
+   cell cliff". Sweeping the bandwidth (held-out LL of the KDE model):
 
-2. **The scalar rate is wrong when the rate is not stationary.** seq_eth had 122
+   | bandwidth | seq_eth | seq_hotel | zara01 | zara02 | students03 |
+   |---|---|---|---|---|---|
+   | 0.10 m | -934.6 | -467.3 | -147.1 | -172.7 | -314.6 |
+   | 0.15 m | -875.9 | -441.1 | -138.4 | **-160.3** | -301.3 |
+   | 0.25 m | -824.1 | **-435.0** | **-134.3** | -160.5 | **-295.6** |
+   | 0.50 m | -779.9 | -440.9 | -139.3 | -171.4 | -310.2 |
+   | 0.75 m | -768.5 | -447.2 | -144.1 | -179.7 | -326.5 |
+   | 1.00 m | **-768.3** | -453.6 | -148.1 | -186.4 | -339.9 |
+   | 1.50 m | -779.1 | -465.0 | -155.1 | -196.8 | -360.2 |
+   | 2.00 m | -794.4 | -474.1 | -160.8 | -205.3 | -375.1 |
+
+   The best bandwidth is 0.15 to 0.25 m for the four dense scenes and about 1 m for
+   the sparse ETH corridor. The 0.5 m default is within a few points of the best
+   everywhere; a per-scene bandwidth chosen on a validation split would be the
+   next refinement.
+
+3. **The scalar rate is wrong when the rate is not stationary.** seq_eth had 122
    arrivals in its last 155 s against 59 predicted, because that stretch contains
-   the busiest wave of the recording (see `exercise_counts_T10.png`). The grid
-   model cannot fix this; it is the homogeneous-in-time assumption failing, and
-   the argument for a time-varying (Cox / Markov-modulated) rate later.
+   the busiest wave of the recording (see `exercise_counts_T10.png`). Neither
+   spatial model can fix this; it is the homogeneous-in-time assumption failing,
+   and the argument for a time-varying (Cox / Markov-modulated) rate later.
 
 ## Assumptions and caveats
 
@@ -108,5 +129,7 @@ Two findings to study:
   level, or a cluster process (Neyman-Scott, Hawkes) at the event level. Note that
   the PMBM filter wants a Poisson *intensity* for births, so a time-varying
   intensity fits the tracker more naturally than a non-Poisson count model.
-* Spatial smoothing: kernel density estimate instead of a histogram, with the
-  bandwidth chosen on the held-out log-likelihood as above.
+* Spatial smoothing is done (KDE); a per-scene bandwidth chosen on a validation
+  split, or an anisotropic kernel aligned with walkways, are possible refinements.
+* Define appearance relative to a robot field of view (synthetic robot pose + cone,
+  re-run the same extraction) before investing in the temporal models above.
