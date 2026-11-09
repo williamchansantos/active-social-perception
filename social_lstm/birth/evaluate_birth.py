@@ -200,7 +200,7 @@ def plot_scene(scene: SceneAppearances, rows: List[dict], ex: dict, args) -> Non
 
 def format_table(rows: List[dict]) -> str:
     cols = [
-        ("scene", "scene", "{:<11s}"), ("model", "model", "{:<8s}"), ("train_n", "train_n", "{:7d}"),
+        ("scene", "scene", "{:<14s}"), ("model", "model", "{:<8s}"), ("train_n", "train_n", "{:7d}"),
         ("test_n", "test_n", "{:6d}"), ("pred_n", "pred_n", "{:6.1f}"), ("ll", "ll", "{:8.1f}"),
         ("spatial_per_event", "sp/evt", "{:7.2f}"), ("region_rmse", "rmse", "{:6.2f}"),
         ("region_logp", "rlogp", "{:8.1f}"),

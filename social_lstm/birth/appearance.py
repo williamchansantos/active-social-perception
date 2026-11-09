@@ -46,6 +46,9 @@ class AppearanceEvent:
     velocity: np.ndarray  # (2,) m/s from the first two frames; NaN if only one frame
     present_at_start: bool  # True if the pedestrian is in the scene's first frame
     num_frames: int  # length of the pedestrian's track in annotated frames
+    origin: str = "scene"  # "scene" (first annotated), or for field-of-view births:
+    #   "scene_entry" (entered the scene already inside the cone) / "walked_in" (was in
+    #   the scene before, then moved into the cone)
 
 
 @dataclass

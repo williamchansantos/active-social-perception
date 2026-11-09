@@ -14,6 +14,8 @@ matplotlib; nothing is learned with gradient descent.
 | `exercise_counts.py` | Learning exercise: counts arrivals in fixed time windows and compares the tally with a Poisson distribution (variance/mean test). `plots/birth/exercise_counts_T<window>.png`. |
 | `poisson_birth.py` | Step 2 models: `GridBirthModel` (histogram intensity) and `KDEBirthModel` (Gaussian kernel intensity), both with `fit`, `expected_count`, `sample`, `log_likelihood`; `GridBirthModel.uniform` is the baseline. |
 | `evaluate_birth.py` | Step 2 CLI. Fits on the first 80 % of each recording, scores uniform / grid / KDE on the last 20 %. `plots/birth/<scene>_birth_model.png` and `birth_eval_summary.csv`. |
+| `fov.py` | A stationary synthetic robot (`RobotView`: pose, field of view, range) and the replay that records each pedestrian's first frame inside its cone. |
+| `analyze_fov.py` | Field-of-view CLI. Compares FOV births with scene births, fits the three models on FOV births. `plots/birth/<scene>_fov_births.png`, `<scene>_fov_birth_model.png`, `fov_summary.csv`. |
 
 Run everything from the repository root:
 
@@ -23,6 +25,9 @@ python -m social_lstm.birth.exercise_counts --window 10
 python -m social_lstm.birth.evaluate_birth                   # 0.5 m cells, 0.5 m bandwidth, 2 m regions
 python -m social_lstm.birth.evaluate_birth --cell 1.0        # other grid cell sizes
 python -m social_lstm.birth.evaluate_birth --bandwidth 0.25  # other KDE bandwidths
+python -m social_lstm.birth.analyze_fov                      # robot at scene centre, 60 deg, 8 m
+python -m social_lstm.birth.analyze_fov --placement edge     # robot at the scene edge looking in
+python -m social_lstm.birth.analyze_fov --data data/ucy/zara01 --robot 0 12 -90
 ```
 
 ## The model in five lines
@@ -102,6 +107,61 @@ Three findings to study:
    spatial model can fix this; it is the homogeneous-in-time assumption failing,
    and the argument for a time-varying (Cox / Markov-modulated) rate later.
 
+## Births relative to a robot's field of view
+
+The data say when a pedestrian is first *annotated in the scene*. A robot sees a
+new pedestrian when they first enter its camera cone, which can happen because
+they entered the scene inside the cone (**scene_entry**) or because they were in
+the scene already and walked into the cone (**walked_in**). `fov.py` places a
+stationary robot (default: centre of the annotated area, looking along the main
+walking direction, 60 deg field of view, 8 m range), replays the recording and
+records each pedestrian's first in-cone frame. The result is a `SceneAppearances`
+object, so steps 1 and 2 run on it unchanged.
+
+| scene | robot pose | scene births | FOV births | scene_entry | walked_in | scene /min | FOV /min |
+|---|---|---|---|---|---|---|---|
+| seq_eth | (3.2, 5.0), 3 deg | 359 | 317 | 26 | 291 | 27.9 | 24.6 |
+| seq_hotel | (0.5, -3.0), -88 deg | 380 | 224 | 122 | 102 | 31.6 | 18.6 |
+| zara01 | (-0.5, 12.9), -86 deg | 140 | 129 | 60 | 69 | 23.3 | 21.5 |
+| zara02 | (-1.0, -2.7), -88 deg | 203 | 190 | 89 | 101 | 29.0 | 27.1 |
+| students03 | (0.7, 0.6), -67 deg | 386 | 206 | 86 | 120 | 107.4 | 57.3 |
+
+Findings:
+
+1. **Half or more of what the robot sees as a birth is not new to the scene.**
+   With the robot in the middle of the ETH corridor 92 % of its births are people
+   who walked into the cone; in the other scenes it is about half. The scene-level
+   model of step 2 describes only the other part. For the camera-panning goal
+   this is the part that matters, because it is the part the robot could have
+   seen earlier by looking elsewhere.
+2. **FOV births concentrate on the cone boundary**, where people cross the arc at
+   8 m or the two side rays. The grid model matches or slightly beats the KDE
+   here (held-out LL, robot at the centre):
+
+   | scene | uniform | grid | KDE |
+   |---|---|---|---|
+   | seq_eth | -587.3 | **-467.4** | -487.5 |
+   | seq_hotel | -327.5 | **-262.9** | -269.3 |
+   | zara01 | -126.0 | **-102.7** | -103.8 |
+   | zara02 | -220.6 | -192.8 | **-180.2** |
+   | students03 | -156.0 | **-119.2** | -121.4 |
+
+   The cone has hard edges and Gaussian bumps smear intensity across them into
+   the part of the bounding box the robot cannot see. A KDE truncated to the
+   cone instead of its bounding box would remove that handicap.
+3. **The uniform baseline and both models use the bounding box of the visible
+   area**, which is larger than the cone itself, so some intensity sits where no
+   birth can occur. Restricting the models to the cone polygon is the obvious
+   refinement.
+
+Assumptions specific to this step: the robot does not move or turn; no
+occlusion; only the first entry into the cone counts (re-entries are reported
+separately: 25 in students03, 1 to 4 elsewhere); pedestrians inside the cone in
+the first frame are left-censored as before. `--placement edge` and `--robot X Y
+HEADING` give other poses; the numbers above move noticeably with the pose,
+which is itself a result: the birth intensity the robot should use depends on
+where it stands and looks.
+
 ## Assumptions and caveats
 
 * `dt = 0.4 s` per annotated frame for every scene (stated in the ETH `info.txt`,
@@ -131,5 +191,5 @@ Three findings to study:
   intensity fits the tracker more naturally than a non-Poisson count model.
 * Spatial smoothing is done (KDE); a per-scene bandwidth chosen on a validation
   split, or an anisotropic kernel aligned with walkways, are possible refinements.
-* Define appearance relative to a robot field of view (synthetic robot pose + cone,
-  re-run the same extraction) before investing in the temporal models above.
+* Field of view: truncate the models to the cone polygon; a moving or turning
+  robot; occlusion by nearer pedestrians.
