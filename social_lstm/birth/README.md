@@ -147,12 +147,17 @@ Findings:
    | students03 | -156.0 | **-119.2** | -121.4 |
 
    The cone has hard edges and Gaussian bumps smear intensity across them into
-   the part of the bounding box the robot cannot see. A KDE truncated to the
-   cone instead of its bounding box would remove that handicap.
-3. **The uniform baseline and both models use the bounding box of the visible
-   area**, which is larger than the cone itself, so some intensity sits where no
-   birth can occur. Restricting the models to the cone polygon is the obvious
-   refinement.
+   the part of the bounding box the robot cannot see.
+3. **The models fitted on FOV births are descriptive only.** They answer "what
+   does a camera at this pose experience as a birth", and that quantity is zero
+   outside the cone by definition. The quantity a planner needs is the *scene*
+   intensity from step 2, which must be non-zero where the robot is not
+   looking: that is the whole reason to look elsewhere. So the FOV-fitted
+   models should not be truncated to the cone or extended further. In PMBM
+   terms, "scene_entry" births are the scene birth intensity times a visibility
+   indicator, and "walked_in" births are undetected targets (the tracker's
+   Poisson component) crossing into the cone. The FOV replay is therefore best
+   kept as ground truth for testing that component once it exists.
 
 Assumptions specific to this step: the robot does not move or turn; no
 occlusion; only the first entry into the cone counts (re-entries are reported
@@ -191,5 +196,6 @@ where it stands and looks.
   intensity fits the tracker more naturally than a non-Poisson count model.
 * Spatial smoothing is done (KDE); a per-scene bandwidth chosen on a validation
   split, or an anisotropic kernel aligned with walkways, are possible refinements.
-* Field of view: truncate the models to the cone polygon; a moving or turning
-  robot; occlusion by nearer pedestrians.
+* Field of view: a moving or turning robot; occlusion by nearer pedestrians.
+  Use the FOV replay (scene_entry + walked_in counts per interval) as the
+  target when the undetected-target intensity of a PMBM-style tracker is built.
