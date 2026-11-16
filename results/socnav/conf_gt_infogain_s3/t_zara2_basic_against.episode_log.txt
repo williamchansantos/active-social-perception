@@ -1,0 +1,25 @@
+****************EPISODE INFO****************
+Episode name: t_zara2_basic_against
+Building name: Zara
+Robot start: [20, 5, -3]
+Robot goal: [1.5, 5, -3]
+Time budget: 60.000
+Total agents in scene: 34
+****************SIMULATOR INFO****************
+Simulator refresh rate (s): 0.050
+Total duration of simulation (s): 53.250
+Num Successful agents: 28
+Num Collided agents: 3
+Num Timeout agents: 3
+****************ROBOT INFO****************
+Robot termination cause: Timeout
+Robot collided with 3 agent(s)
+Collided with: prerec_0006,prerec_0006,prerec_0008
+Num commands received from joystick: 1208
+Total time blocking for joystick input (s): 35.650
+Num commands executed by robot: 1201
+Robot displacement (m): 17.438
+Max robot velocity (m/s): 1.200
+Max robot acceleration: 0.000
+Max robot angular velocity: -1.100
+Max robot angular acceleration: 0.000

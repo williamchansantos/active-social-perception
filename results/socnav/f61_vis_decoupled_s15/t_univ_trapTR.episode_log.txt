@@ -1,0 +1,25 @@
+****************EPISODE INFO****************
+Episode name: t_univ_trapTR
+Building name: Univ
+Robot start: [17.5, 12, -1.6]
+Robot goal: [2, 1, -3.14]
+Time budget: 60.000
+Total agents in scene: 243
+****************SIMULATOR INFO****************
+Simulator refresh rate (s): 0.050
+Total duration of simulation (s): 196.021
+Num Successful agents: 26
+Num Collided agents: 4
+Num Timeout agents: 213
+****************ROBOT INFO****************
+Robot termination cause: Success
+Robot collided with 3 agent(s)
+Collided with: prerec_0174,prerec_0003,prerec_0003
+Num commands received from joystick: 704
+Total time blocking for joystick input (s): 158.523
+Num commands executed by robot: 702
+Robot displacement (m): 18.727
+Max robot velocity (m/s): 1.200
+Max robot acceleration: 0.000
+Max robot angular velocity: -1.100
+Max robot angular acceleration: 0.000

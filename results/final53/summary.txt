@@ -1,0 +1,28 @@
+
+=== Zara01+Zara02 (seed 53, 600 paired episodes, 60 deg, final method: no observation-aware coupling)
+method        success  zara01  zara02  reached  collisions by kind
+proposed        0.658   0.777   0.540    0.962  {'tracked': 217, 'untracked': 278, 'stopped': 5, 'spawn': 44}
+infogain        0.662   0.773   0.550    0.953  {'tracked': 202, 'untracked': 268, 'stopped': 3, 'spawn': 31}
+nearest         0.585   0.667   0.503    0.917  {'tracked': 172, 'untracked': 614, 'stopped': 6, 'spawn': 30}
+fixed           0.555   0.683   0.427    0.888  {'tracked': 194, 'untracked': 652, 'stopped': 3, 'spawn': 33}
+gaze oracle     0.662   0.787   0.537    0.898  {'tracked': 301, 'untracked': 184, 'stopped': 3, 'spawn': 54}
+360             0.840   0.863   0.817    0.928  {'tracked': 113, 'untracked': 9, 'stopped': 1, 'spawn': 20}
+  PRIMARY proposed > nearest  (one-sided): 127:83  p = 0.0015  p_holm = 0.0029
+  PRIMARY proposed vs infogain (two-sided): 90:92  p = 0.9409  p_holm = 0.9409
+  secondary proposed > fixed (one-sided): 132:70  p = 0.0000
+  oracle: proposed vs gaze oracle 102:104  p = 0.9445
+  oracle: proposed vs 360         53:162  p = 0.0000
+
+=== ETH+Hotel (seed 53, 600 paired episodes, 60 deg, final method: no observation-aware coupling)
+method        success     eth   hotel  reached  collisions by kind
+proposed        0.628   0.607   0.650    0.977  {'tracked': 180, 'untracked': 326, 'stopped': 1, 'spawn': 88}
+infogain        0.640   0.627   0.653    0.980  {'tracked': 162, 'untracked': 296, 'stopped': 4, 'spawn': 75}
+nearest         0.615   0.627   0.603    0.975  {'tracked': 110, 'untracked': 494, 'stopped': 2, 'spawn': 111}
+fixed           0.590   0.587   0.593    0.967  {'tracked': 142, 'untracked': 473, 'stopped': 4, 'spawn': 97}
+gaze oracle     0.678   0.703   0.653    0.970  {'tracked': 263, 'untracked': 193, 'stopped': 4, 'spawn': 106}
+360             0.828   0.827   0.830    0.968  {'tracked': 141, 'untracked': 11, 'stopped': 0, 'spawn': 64}
+  PRIMARY proposed > nearest  (one-sided): 87:79  p = 0.2935  p_holm = 0.5871
+  PRIMARY proposed vs infogain (two-sided): 58:65  p = 0.5887  p_holm = 0.5887
+  secondary proposed > fixed (one-sided): 86:63  p = 0.0356
+  oracle: proposed vs gaze oracle 66:96  p = 0.0224
+  oracle: proposed vs 360         37:157  p = 0.0000

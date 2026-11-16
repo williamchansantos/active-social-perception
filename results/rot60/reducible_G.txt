@@ -1,0 +1,11 @@
+Pooled over scenes (mean of per-scene values):
+  fresh          actual reducible  0.03  0.09  0.21 | CV model  0.03  0.15  0.45 (x  1.2   1.6   2.1) | predictor-sensitivity model  0.03  0.11  0.29 (x  1.1   1.3   1.4) | reducible share   76%   42%   23%
+                 total covariance, true position inside 95%: CV  100%  100%   98% | predictor-sensitivity  100%  100%   98%
+  coasted 2      actual reducible  0.12  0.32  0.69 | CV model  0.12  0.41  1.08 (x  1.0   1.3   1.6) | predictor-sensitivity model  0.11  0.32  0.72 (x  0.9   1.0   1.0) | reducible share   93%   72%   50%
+                 total covariance, true position inside 95%: CV  100%   99%   98% | predictor-sensitivity  100%   99%   97%
+  coasted 4      actual reducible  0.42  0.91  1.75 | CV model  0.42  1.05  2.39 (x  1.0   1.2   1.4) | predictor-sensitivity model  0.40  0.88  1.76 (x  0.9   1.0   1.0) | reducible share   98%   88%   72%
+                 total covariance, true position inside 95%: CV   99%   99%   97% | predictor-sensitivity   99%   98%   96%
+  sparse 50%     actual reducible  0.25  0.58  1.19 | CV model  0.37  0.84  1.80 (x  1.5   1.4   1.5) | predictor-sensitivity model  0.34  0.57  0.95 (x  1.4   1.0   0.8) | reducible share   97%   82%   63%
+                 total covariance, true position inside 95%: CV  100%   99%   97% | predictor-sensitivity  100%   99%   96%
+  new (3 steps)  actual reducible  0.06  0.31  0.87 | CV model  0.07  0.39  1.25 (x  1.1   1.3   1.4) | predictor-sensitivity model  0.06  0.32  0.92 (x  1.0   1.1   1.1) | reducible share   86%   69%   53%
+                 total covariance, true position inside 95%: CV  100%   99%   97% | predictor-sensitivity  100%   98%   95%

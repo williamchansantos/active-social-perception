@@ -1,0 +1,29 @@
+360 camera: success 0.872 (n=600)
+
+=== 45 deg (600 paired episodes)
+method           success [95% CI]  zara01  zara02  reached  never-seen eps  tracked eps | proposed won:lost (success)   never-seen collisions
+proposed     0.570 [0.53,0.61]   0.643   0.497    0.965             151          174
+infogain     0.582 [0.54,0.62]   0.643   0.520    0.975             182          132 |  96:103 p=0.6707           84:115 p=0.0332
+nearest      0.550 [0.51,0.59]   0.653   0.447    0.932             227           89 | 116:104 p=0.4584           72:148 p=0.0000
+fixed        0.540 [0.50,0.58]   0.650   0.430    0.935             234          117 | 109:91  p=0.2292           63:146 p=0.0000
+gaze oracle  0.607 [0.57,0.64]   0.710   0.503    0.927             139          156 |  98:120 p=0.1548          103:91  p=0.4297
+
+=== 60 deg (600 paired episodes)  [PRIMARY]
+method           success [95% CI]  zara01  zara02  reached  never-seen eps  tracked eps | proposed won:lost (success)   never-seen collisions
+proposed     0.663 [0.62,0.70]   0.717   0.610    0.970             131          130
+infogain     0.603 [0.56,0.64]   0.677   0.530    0.955             152          149 | 124:88  p=0.0160           81:102 p=0.1391
+nearest      0.548 [0.51,0.59]   0.653   0.443    0.923             229          108 | 150:81  p=0.0000           65:163 p=0.0000
+fixed        0.562 [0.52,0.60]   0.653   0.470    0.915             210          116 | 131:70  p=0.0000           68:147 p=0.0000
+gaze oracle  0.675 [0.64,0.71]   0.800   0.550    0.950              80          136 |  91:98  p=0.6626          106:55  p=0.0001
+
+=== 70 deg (600 paired episodes)
+method           success [95% CI]  zara01  zara02  reached  never-seen eps  tracked eps | proposed won:lost (success)   never-seen collisions
+proposed     0.620 [0.58,0.66]   0.693   0.547    0.957             112          166
+infogain     0.602 [0.56,0.64]   0.667   0.537    0.962             154          140 | 101:90  p=0.4694           66:108 p=0.0018
+nearest      0.587 [0.55,0.63]   0.667   0.507    0.930             198          101 | 117:97  p=0.1939           61:147 p=0.0000
+fixed        0.622 [0.58,0.66]   0.700   0.543    0.920             186          105 | 103:104 p=1.0000           56:130 p=0.0000
+gaze oracle  0.718 [0.68,0.75]   0.823   0.613    0.925              52          126 |  85:144 p=0.0001           99:39  p=0.0000
+
+Primary hypotheses at 60 deg (success; Holm over the two; one-sided direction checked):
+  proposed vs nearest  : 150:81  p=0.0000  p_holm=0.0000  -> CONFIRMED
+  proposed vs infogain : 124:88  p=0.0160  p_holm=0.0160  -> CONFIRMED

@@ -1,0 +1,15 @@
+Final method with RGB-D vision, SocNavBench seeds 1-6 combined (post hoc)
+
+=== success excluding spawn
+proposed 0.639 (n = 180)
+vs fixed    0.517: pooled won:lost 40:18 (n = 180) one-sided p = 0.0027 | episode level better:worse 14:4 p = 0.0154 | difference +0.122, 95% cluster-bootstrap CI [+0.039, +0.206]
+vs infogain 0.550: pooled won:lost 42:26 (n = 180) one-sided p = 0.0341 | episode level better:worse 13:7 p = 0.1316 | difference +0.089, 95% cluster-bootstrap CI [-0.017, +0.200]
+  seeds 1-3: proposed 0.689, fixed 0.533, infogain 0.556
+  seeds 4-6: proposed 0.589, fixed 0.500, infogain 0.544
+
+=== success, all collisions
+proposed 0.533 (n = 180)
+vs fixed    0.417: pooled won:lost 37:16 (n = 180) one-sided p = 0.0027 | episode level better:worse 15:5 p = 0.0207 | difference +0.117, 95% cluster-bootstrap CI [+0.044, +0.194]
+vs infogain 0.428: pooled won:lost 41:22 (n = 180) one-sided p = 0.0113 | episode level better:worse 12:6 p = 0.1189 | difference +0.106, 95% cluster-bootstrap CI [+0.006, +0.211]
+  seeds 1-3: proposed 0.578, fixed 0.433, infogain 0.444
+  seeds 4-6: proposed 0.489, fixed 0.400, infogain 0.411

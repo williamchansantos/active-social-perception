@@ -1,0 +1,19 @@
+600 paired episodes (ETH + Hotel, seed 23, 60 deg); 360 camera: 0.783
+
+method          success [95% CI]    eth  hotel  reached  never-seen  tracked | proposed won:lost (success)  never-seen collisions
+proposed     0.605 [0.57,0.64]  0.623  0.587    0.967         161      124
+infogain     0.627 [0.59,0.66]  0.613  0.640    0.978         168      109 |  66:79  p=0.3190         71:78  p=0.6232 | eth 34:31 p=0.804 | hotel 32:48 p=0.093
+nearest      0.573 [0.53,0.61]  0.580  0.567    0.967         224       64 |  87:68  p=0.1480         60:123 p=0.0000 | eth 45:32 p=0.171 | hotel 42:36 p=0.572
+fixed        0.575 [0.54,0.61]  0.563  0.587    0.952         221       84 |  88:70  p=0.1760         60:120 p=0.0000 | eth 48:30 p=0.054 | hotel 40:40 p=1.000
+gaze oracle  0.657 [0.62,0.69]  0.653  0.660    0.973         105      155 |  73:104 p=0.0239        103:47  p=0.0000 | eth 40:49 p=0.397 | hotel 33:55 p=0.025
+
+Primary hypotheses (pooled success, Holm over the two):
+  proposed vs nearest  : 87:68  p=0.1480  p_holm=0.2960  -> not confirmed
+  proposed vs infogain : 66:79  p=0.3190  p_holm=0.3190  -> not confirmed
+
+60 vs 100 deg on the same episodes (success):
+  proposed     100 deg 0.677 -> 60 deg 0.605
+  infogain     100 deg 0.680 -> 60 deg 0.627
+  nearest      100 deg 0.658 -> 60 deg 0.573
+  fixed        100 deg 0.642 -> 60 deg 0.575
+  gaze oracle  100 deg 0.732 -> 60 deg 0.657

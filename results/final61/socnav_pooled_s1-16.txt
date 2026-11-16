@@ -1,0 +1,11 @@
+POST-HOC: final method with RGB-D vision, SocNavBench, all seeds with identical settings combined
+
+=== SUCCESS EXCLUDING SPAWN (primary metric)
+proposed 0.650 vs fixed            0.548  diff +0.102 [95% CI +0.035, +0.167]  p_perm = 0.0039  pooled 107:58 p = 0.0001  episodes better:worse 17:6  (n = 480, seeds 1-16)
+proposed 0.650 vs information gain 0.583  diff +0.067 [95% CI +0.002, +0.133]  p_perm = 0.0347  pooled 103:71 p = 0.0093  episodes better:worse 18:7  (n = 480, seeds 1-16)
+proposed 0.657 vs decoupled        0.633  diff +0.023 [95% CI -0.060, +0.103]  p_perm = 0.2853  pooled 56:49 p = 0.2792  episodes better:worse 15:11  (n = 300, seeds 7-16)
+
+=== SUCCESS, ALL COLLISIONS
+proposed 0.521 vs fixed            0.435  diff +0.085 [95% CI +0.025, +0.146]  p_perm = 0.0073  pooled 101:60 p = 0.0008  episodes better:worse 17:6  (n = 480, seeds 1-16)
+proposed 0.521 vs information gain 0.460  diff +0.060 [95% CI +0.004, +0.115]  p_perm = 0.0259  pooled 101:72 p = 0.0165  episodes better:worse 16:5  (n = 480, seeds 1-16)
+proposed 0.513 vs decoupled        0.537  diff -0.023 [95% CI -0.093, +0.040]  p_perm = 0.7698  pooled 47:54 p = 0.7869  episodes better:worse 12:12  (n = 300, seeds 7-16)

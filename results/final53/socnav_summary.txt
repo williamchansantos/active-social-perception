@@ -1,0 +1,26 @@
+
+=== SUCCESS EXCLUDING SPAWN (primary)
+method      gt n     gt  vis n  vision   collisions gt / vision (spawn)
+proposed      90  0.589     90   0.589   66 (14) / 94 (22)
+infogain      90  0.611     90   0.544   78 (21) / 104 (27)
+fixed         90  0.522     90   0.500   87 (16) / 96 (22)
+  H1 vision: proposed > fixed    won:lost 20:12 (n = 90)  p = 0.1077  p_holm = 0.4307   PRIMARY
+  H2 vision: proposed > infogain won:lost 19:15 (n = 90)  p = 0.3038  p_holm = 0.9114   PRIMARY
+  H3 perception cost proposed < fixed    (gt - vision: proposed +0.000, fixed +0.022; smaller:larger 19:18, n = 90)  p = 0.5000  p_holm = 0.9114   PRIMARY
+  H4 perception cost proposed < infogain (gt - vision: proposed +0.000, infogain +0.067; smaller:larger 21:17, n = 90)  p = 0.3136  p_holm = 0.9114   PRIMARY
+  per episode (mean over seeds), vision: proposed better:worse than fixed    12:6  p = 0.119
+  per episode (mean over seeds), vision: proposed better:worse than infogain 13:9  p = 0.262
+  per dataset, vision: eth: 0.50/0.61/0.56  hotel: 0.73/0.67/0.67  univ: 0.71/0.50/0.58  zara1: 0.44/0.33/0.11  zara2: 0.53/0.67/0.60 (proposed/infogain/fixed)
+
+=== SUCCESS, ALL COLLISIONS (secondary)
+method      gt n     gt  vis n  vision   collisions gt / vision (spawn)
+proposed      90  0.544     90   0.489   66 (14) / 94 (22)
+infogain      90  0.522     90   0.411   78 (21) / 104 (27)
+fixed         90  0.456     90   0.400   87 (16) / 96 (22)
+  H1 vision: proposed > fixed    won:lost 18:10 (n = 90)  p = 0.0925  p_holm = 0.3699
+  H2 vision: proposed > infogain won:lost 20:13 (n = 90)  p = 0.1481  p_holm = 0.4443
+  H3 perception cost proposed < fixed    (gt - vision: proposed +0.056, fixed +0.056; smaller:larger 17:17, n = 90)  p = 0.5679  p_holm = 0.8746
+  H4 perception cost proposed < infogain (gt - vision: proposed +0.056, infogain +0.111; smaller:larger 21:19, n = 90)  p = 0.4373  p_holm = 0.8746
+  per episode (mean over seeds), vision: proposed better:worse than fixed    11:6  p = 0.166
+  per episode (mean over seeds), vision: proposed better:worse than infogain 12:8  p = 0.252
+  per dataset, vision: eth: 0.50/0.50/0.50  hotel: 0.60/0.47/0.47  univ: 0.46/0.25/0.38  zara1: 0.39/0.33/0.11  zara2: 0.53/0.60/0.60 (proposed/infogain/fixed)

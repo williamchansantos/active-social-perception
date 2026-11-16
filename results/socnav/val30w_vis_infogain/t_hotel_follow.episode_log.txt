@@ -1,0 +1,24 @@
+****************EPISODE INFO****************
+Episode name: t_hotel_follow
+Building name: Hotel
+Robot start: [15, 5, 0.2]
+Robot goal: [2, 5, 0]
+Time budget: 60.000
+Total agents in scene: 38
+****************SIMULATOR INFO****************
+Simulator refresh rate (s): 0.050
+Total duration of simulation (s): 50.281
+Num Successful agents: 9
+Num Collided agents: 0
+Num Timeout agents: 29
+****************ROBOT INFO****************
+Robot termination cause: Success
+Robot collided with 0 agent(s)
+Num commands received from joystick: 400
+Total time blocking for joystick input (s): 44.285
+Num commands executed by robot: 397
+Robot displacement (m): 12.958
+Max robot velocity (m/s): 1.200
+Max robot acceleration: 0.000
+Max robot angular velocity: -1.100
+Max robot angular acceleration: 0.000

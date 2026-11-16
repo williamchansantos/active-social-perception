@@ -1,0 +1,60 @@
+
+=== GROUND-TRUTH OBSERVATION (simulated camera on true positions)
+method       n  success  reached coll-free collisions steps(succ)  min clr   per dataset success
+proposed    30     0.57     1.00      0.57         28        47.2     0.73   eth 0.50  hotel 0.60  univ 0.62  zara1 0.67  zara2 0.40
+infogain    30     0.57     1.00      0.57         23        51.1     0.65   eth 0.50  hotel 0.60  univ 0.38  zara1 0.50  zara2 1.00
+nearest     30     0.33     1.00      0.33         43        48.0     0.61   eth 0.50  hotel 0.20  univ 0.12  zara1 0.33  zara2 0.60
+fixed       30     0.60     1.00      0.60         22        48.9     0.72   eth 0.50  hotel 1.00  univ 0.25  zara1 0.50  zara2 1.00
+360         30     0.87     1.00      0.87          6        48.0     0.96   eth 0.83  hotel 1.00  univ 0.75  zara1 1.00  zara2 0.80
+  proposed vs infogain  success won:lost 7:7  p = 1.000  (n = 30)
+  proposed vs nearest   success won:lost 10:3  p = 0.092  (n = 30)
+  proposed vs fixed     success won:lost 6:7  p = 1.000  (n = 30)
+
+=== RGB-D VISION (rendered images, detector, depth, association)
+method       n  success  reached coll-free collisions steps(succ)  min clr   per dataset success
+proposed    30     0.47     1.00      0.47         28        54.6     0.70   eth 0.50  hotel 0.60  univ 0.50  zara1 0.17  zara2 0.60
+infogain    30     0.40     0.90      0.40         38        53.2     0.61   eth 0.50  hotel 0.40  univ 0.38  zara1 0.33  zara2 0.40
+nearest     30     0.37     1.00      0.37         36        67.9     0.56   eth 0.50  hotel 0.40  univ 0.25  zara1 0.33  zara2 0.40
+fixed       30     0.33     1.00      0.33         46        49.9     0.65   eth 0.50  hotel 0.20  univ 0.12  zara1 0.33  zara2 0.60
+  proposed vs infogain  success won:lost 6:4  p = 0.754  (n = 30)
+  proposed vs nearest   success won:lost 8:5  p = 0.581  (n = 30)
+  proposed vs fixed     success won:lost 8:4  p = 0.388  (n = 30)
+
+=== COST OF REAL PERCEPTION (gt -> vision, same method and episode)
+  proposed  success gt 0.57 -> vision 0.47  (gt better:vision better 6:3, p = 0.508); collisions 28 -> 28; detections/step 0.43 -> 0.61
+  infogain  success gt 0.57 -> vision 0.40  (gt better:vision better 8:3, p = 0.227); collisions 23 -> 38; detections/step 0.64 -> 1.00
+  nearest   success gt 0.33 -> vision 0.37  (gt better:vision better 3:4, p = 1.000); collisions 43 -> 36; detections/step 0.58 -> 0.80
+  fixed     success gt 0.60 -> vision 0.33  (gt better:vision better 8:0, p = 0.008); collisions 22 -> 46; detections/step 0.24 -> 0.36
+
+=== PER EPISODE (S = success, R = reached with collisions, T = timeout; digit = collisions)
+episode                      g-prop g-info g-near g-fixe g-360  v-prop v-info v-near v-fixe
+t_ETH1                         S      S      S      S      S      S      S      S      S   
+t_ETH2                         R3     R2     R3     R3     S      R2     R1     R2     R2  
+t_eth_follow                   S      S      S      S      S      S      S      R5     S   
+t_eth_against                  S      S      S      S      S      S      S      S      S   
+t_eth_dense_flow               R4     R3     R3     R2     R1     R1     R1     S      R3  
+t_eth_dense_against            R6     R1     R7     R7     S      R3     R3     R3     R2  
+t_zara1_basic_cross            R2     S      S      S      S      R2     S      S      S   
+t_zara1_wrap                   S      S      R1     R1     S      S      R1     R2     R3  
+t_zara1_dense                  R1     R1     R5     R1     S      R2     T9     R2     R5  
+t_zara1_dense_rev              S      R2     R2     S      S      R2     S      R1     R3  
+t_zara1_dense_cross            S      R2     R1     R1     S      R1     R1     R1     R1  
+t_zara1_dense_crosswrap_rev    S      S      S      S      S      R2     R1     S      S   
+t_zara2                        S      S      S      S      S      S      S      S      S   
+t_zara2_basic_against          R1     S      S      S      S      R2     T4     R2     R4  
+t_zara2_wrap                   R1     S      R1     S      S      R1     R3     S      S   
+t_zara2_wrap2                  S      S      S      S      S      S      S      R1     R2  
+t_zara2_against_seq            R1     S      R1     S      R2     S      R1     R2     S   
+t_univ1                        S      S      R1     R1     S      R1     R1     R1     R2  
+t_univ_obstacle                S      R2     R1     R1     S      R2     R2     R2     R2  
+t_univ_trapTR                  S      S      R4     R1     R2     R1     T1     R2     R2  
+t_univ_trapTR2                 R2     R1     S      R2     S      S      R1     S      R3  
+t_univ_trapTL                  R2     R2     R2     R1     S      S      R1     S      R1  
+t_univ_trapBL                  S      R2     R3     R1     S      S      S      R2     R1  
+t_univ_trapBR                  S      R1     R2     S      S      S      S      R2     R1  
+t_univ_across                  R2     S      R1     S      R1     R2     S      R3     S   
+t_hotel_against                R1     S      R1     S      S      R2     R3     S      R2  
+t_hotel_follow                 R2     S      R2     S      S      R2     S      R1     R1  
+t_hotel_against_diag           S      S      S      S      S      S      S      S      S   
+t_hotel_follow_diag            S      R2     R1     S      S      S      R2     R1     R3  
+t_hotel_cross                  S      R2     R1     S      S      S      R2     R1     R3  

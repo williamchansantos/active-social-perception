@@ -1,0 +1,14 @@
+
+=== supermpc-active: 369 close encounters (< 1.5 m) with pedestrians not tracked from the start
+  first detection 257, untracked at encounter 88, re-detected 16, entered scene 8
+  detection distance: median 2.93 m; < 2.5 m in 37%; lead time to encounter median 3 steps
+  late (< 2.5 m, n=100): outside FOV 78, in view (missed/occluded) 22 | first detection 89, re-detected 11
+    bearing from robot heading: <30 deg 23%, 30-90 61%, >=90 16%; robot speed then median 1.20 m/s
+    never-seen ones: undetected density within 1 m of them (expected count): median 0.060, > 0.05 in 57%
+
+=== supermpc-360: 319 close encounters (< 1.5 m) with pedestrians not tracked from the start
+  first detection 281, entered scene 28, re-detected 6, untracked at encounter 4
+  detection distance: median 3.62 m; < 2.5 m in 9%; lead time to encounter median 5 steps
+  late (< 2.5 m, n=27): outside FOV 17, in view (missed/occluded) 10 | first detection 24, re-detected 3
+    bearing from robot heading: <30 deg 22%, 30-90 59%, >=90 19%; robot speed then median 1.20 m/s
+    never-seen ones: undetected density within 1 m of them (expected count): median 0.011, > 0.05 in 17%

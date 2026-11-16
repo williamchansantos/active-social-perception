@@ -1,0 +1,18 @@
+600 paired episodes (eth, hotel)
+
+planner                                                        success [95% CI]     eth   hotel  reached coll-free  steps  method:other       p  p_holm
+Proposed: risk-aware gaze + observation-aware constraint   0.677 [0.64,0.71]   0.633   0.720    0.978     0.688   31.9             -       -       -
+Fixed camera + observation-aware constraint                0.625 [0.59,0.66]   0.637   0.613    0.950     0.643   32.1         94:63  0.0164  0.1219
+Information gain + observation-aware constraint            0.652 [0.61,0.69]   0.623   0.680    0.968     0.662   31.9         80:65  0.2449  0.9795
+360 camera + observation-aware constraint (oracle)         0.768 [0.73,0.80]   0.740   0.797    0.978     0.788   33.3        46:101  0.0000       -
+D-MPC (fixed camera)                                       0.623 [0.58,0.66]   0.613   0.633    1.000     0.623   23.5         98:66  0.0152  0.1219
+SupeR-MPC, fixed camera                                    0.642 [0.60,0.68]   0.637   0.647    0.947     0.653   31.6         93:72  0.1192  0.5960
+SupeR-MPC, scanning camera                                 0.630 [0.59,0.67]   0.603   0.657    0.975     0.645   33.7         88:60  0.0261  0.1568
+SupeR-MPC, look at nearest                                 0.658 [0.62,0.70]   0.650   0.667    0.965     0.662   30.8         88:77  0.4364  1.0000
+SupeR-MPC, information gain                                0.680 [0.64,0.72]   0.680   0.680    0.973     0.688   31.9         72:74  0.9341  1.0000
+SupeR-MPC, risk-aware gaze (previous method)               0.663 [0.62,0.70]   0.643   0.683    0.967     0.675   31.7         71:63  0.5455  1.0000
+Gaze oracle: same camera, ground-truth pointing            0.732 [0.69,0.77]   0.753   0.710    0.980     0.738   35.6         66:99  0.0125       -
+360 camera (oracle)                                        0.783 [0.75,0.81]   0.783   0.783    0.982     0.792   33.3        45:109  0.0000       -
+Perfect perception (oracle)                                0.817 [0.78,0.85]   0.763   0.870    0.983     0.827   30.7        40:124  0.0000       -
+
+Gap closed from fixed camera to 360 camera: 25%; to the gaze oracle: 39%

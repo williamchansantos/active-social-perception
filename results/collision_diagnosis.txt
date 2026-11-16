@@ -1,0 +1,19 @@
+400 episodes run; first contacts: 85 (52 with tracked pedestrians, 33 untracked)
+
+=== supermpc: 22 tracked-pedestrian contacts | success 0.77  collision-free 0.82  reached 0.90  steps(reached) 41.6 ===
+  planned-violation   19
+  within-risk          2
+  prediction-miss      1
+  approach: front 17, side 4, behind 1   robot speed at contact-1: median 1.20 m/s, stopped(<0.1) 4
+  constrained contacts: median one-step prediction error 0.28 m, median d2 0.5 (95% = 5.99), median kappa 1.16, slack used anywhere in horizon 19/22, median existence r 1.00
+  planned violations: steps tracked when slack first appeared: median 0 (<=2 steps: 17/19, >=5 steps: 2/19); slack appeared 2 steps before contact (median); distance then 1.7 m; robot speed then 1.20 m/s; pedestrian speed 1.36 m/s
+  late detections (17): status the step before first detection: outside FOV 8, not in scene 4, beyond range 3, missed (p_D) 2  |  over the 6 steps before: not in scene 47, outside FOV 34, beyond range 17, occluded 2, missed (p_D) 2
+
+=== supermpc-active: 30 tracked-pedestrian contacts | success 0.84  collision-free 0.86  reached 0.96  steps(reached) 38.3 ===
+  planned-violation   26
+  within-risk          4
+  approach: front 20, side 10   robot speed at contact-1: median 1.20 m/s, stopped(<0.1) 3
+  constrained contacts: median one-step prediction error 0.28 m, median d2 0.5 (95% = 5.99), median kappa 1.16, slack used anywhere in horizon 28/30, median existence r 1.00
+  planned violations: steps tracked when slack first appeared: median 0 (<=2 steps: 24/26, >=5 steps: 2/26); slack appeared 2 steps before contact (median); distance then 2.0 m; robot speed then 1.20 m/s; pedestrian speed 1.30 m/s
+  late detections (24): status the step before first detection: outside FOV 14, not in scene 6, missed (p_D) 3, occluded 1  |  over the 6 steps before: outside FOV 63, not in scene 56, beyond range 12, occluded 6, missed (p_D) 4
+

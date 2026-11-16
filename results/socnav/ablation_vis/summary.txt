@@ -1,0 +1,15 @@
+=== ABLATIONS WITH RGB-D VISION (SocNavBench, 30 episodes x seeds 1-3, paired with the full method)
+success = excluding spawn collisions (primary); all = all collisions
+removed component                                            n  full  abl.   all reach  coll(sp) full won:lost       p  p_holm  per-ep
+- observation-aware coupling (open-loop unseen constraint)  90  0.70  0.69  0.58  1.00    55(13)     14:13      1.0000  1.0000   9:7  
+- unseen-pedestrian chance constraint                       90  0.70  0.67  0.56  1.00    69(15)      8:5       0.5811  1.0000   7:4  
+- unseen term of the gaze cost                              90  0.70  0.70  0.57  1.00    60(20)     13:13      1.0000  1.0000   7:5  
+- tracked term of the gaze cost                             90  0.70  0.61  0.47  0.99    83(33)     18:10      0.1849  1.0000  12:6  
+- active gaze (fixed camera)                                90  0.70  0.61  0.51  0.99    86(16)     16:8       0.1516  1.0000  10:6  
+- PMB tracker (plain Kalman tracker)                        90  0.70  0.57  0.50  0.93    88(21)     26:14      0.0807  0.7262  11:7  
+- stale-track pruning (prune at 2.5 m)                      90  0.70  0.68  0.56  0.98    69(26)      9:7       0.8036  1.0000   6:5  
+- existence weighting                                       90  0.70  0.69  0.59  1.00    64(19)      8:7       1.0000  1.0000   5:3  
+- robot uncertainty propagation                             90  0.70  0.62  0.52  1.00    78(25)     19:12      0.2810  1.0000  10:4  
+- track state covariance in predictions                     90  0.70  0.52  0.43  1.00   101(19)     23:7       0.0052  0.0522  13:5  
+
+full method: success 0.700 (all collisions 0.522), collisions 73 (26 spawn), n = 90

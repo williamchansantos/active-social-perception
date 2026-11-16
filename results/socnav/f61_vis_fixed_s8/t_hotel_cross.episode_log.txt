@@ -1,0 +1,25 @@
+****************EPISODE INFO****************
+Episode name: t_hotel_cross
+Building name: Hotel
+Robot start: [15, 10, 0.2]
+Robot goal: [2, 2, 1.5]
+Time budget: 60.000
+Total agents in scene: 38
+****************SIMULATOR INFO****************
+Simulator refresh rate (s): 0.050
+Total duration of simulation (s): 50.946
+Num Successful agents: 5
+Num Collided agents: 2
+Num Timeout agents: 31
+****************ROBOT INFO****************
+Robot termination cause: Success
+Robot collided with 2 agent(s)
+Collided with: prerec_0003,prerec_0004
+Num commands received from joystick: 352
+Total time blocking for joystick input (s): 44.057
+Num commands executed by robot: 345
+Robot displacement (m): 15.020
+Max robot velocity (m/s): 1.200
+Max robot acceleration: 0.000
+Max robot angular velocity: -1.100
+Max robot angular acceleration: 0.000

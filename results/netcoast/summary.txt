@@ -1,0 +1,39 @@
+
+=== ZARA (600 paired episodes, 60 deg, network coasting + predictor sensitivity)
+method          success [95% CI]  zara01  zara02  reached  steps  never-seen  tracked  CV coast | proposed won:lost  p
+proposed     0.605 [0.57,0.64]   0.690   0.520    0.960   37.6         135      168     0.632
+infogain     0.622 [0.58,0.66]   0.673   0.570    0.962   38.1         144      145     0.637 | 102:112 0.5385
+nearest      0.577 [0.54,0.62]   0.640   0.513    0.943   38.6         211       93     0.555 | 118:101 0.2796
+fixed        0.567 [0.53,0.61]   0.620   0.513    0.918   36.0         217      123     0.547 | 104:81  0.1055
+gaze oracle  0.673 [0.63,0.71]   0.783   0.563    0.937   41.1          85      143     0.660 |  77:118 0.0041
+360          0.873 [0.84,0.90]   0.903   0.843    0.963   39.8           4       64     0.852 |  31:192 0.0000
+  PRIMARY proposed vs nearest: p_holm = 0.5592
+  PRIMARY proposed vs infogain: p_holm = 0.5592
+  proposed: network coasting vs CV coasting 79:95 p=0.255
+  infogain: network coasting vs CV coasting 88:97 p=0.557
+
+=== ETH (600 paired episodes, 60 deg, network coasting + predictor sensitivity)
+method          success [95% CI]     eth   hotel  reached  steps  never-seen  tracked  CV coast | proposed won:lost  p
+proposed     0.618 [0.58,0.66]   0.580   0.657    0.977   30.6         156      127     0.610
+infogain     0.643 [0.60,0.68]   0.623   0.663    0.972   30.2         172      101     0.630 |  63:78  0.2383
+nearest      0.598 [0.56,0.64]   0.590   0.607    0.970   29.7         214       75     0.610 |  85:73  0.3816
+fixed        0.593 [0.55,0.63]   0.600   0.587    0.967   29.5         208       83     0.570 |  85:70  0.2607
+gaze oracle  0.675 [0.64,0.71]   0.673   0.677    0.973   32.7         101      139     0.677 |  69:103 0.0116
+360          0.772 [0.74,0.80]   0.770   0.773    0.948   33.1          20      107     0.797 |  37:129 0.0000
+  PRIMARY proposed vs infogain: p_holm = 0.4766
+  PRIMARY proposed vs nearest: p_holm = 0.4766
+  proposed: network coasting vs CV coasting 68:63 p=0.727
+  infogain: network coasting vs CV coasting 77:69 p=0.563
+
+=== ABLATIONS (Zara seed 31, 600 paired episodes; removed component)
+FULL METHOD                                          0.605  reached 0.960  never-seen 135  tracked 168
+- observation-aware coupling (open-loop constraint)  0.613  reached 0.942  never-seen 154  tracked 154  full won:lost 89:94 p=0.7676  p_holm=1.000
+- unseen-pedestrian constraint                       0.578  reached 0.967  never-seen 142  tracked 185  full won:lost 93:77 p=0.2499  p_holm=1.000
+- unseen-pedestrian perception term                  0.615  reached 0.957  never-seen 165  tracked 135  full won:lost 97:103 p=0.7238  p_holm=1.000
+- tracked-pedestrian perception term                 0.595  reached 0.972  never-seen 134  tracked 179  full won:lost 81:75 p=0.6891  p_holm=1.000
+- active gaze (fixed camera)                         0.580  reached 0.985  never-seen 201  tracked 136  full won:lost 96:81 p=0.2926  p_holm=1.000
+- PMB tracker (plain Kalman)                         0.563  reached 0.920  never-seen 218  tracked  92  full won:lost 114:89 p=0.0918  p_holm=0.918
+- stale-track pruning (2.5 m)                        0.588  reached 0.897  never-seen 125  tracked 174  full won:lost 67:57 p=0.4191  p_holm=1.000
+- existence weighting                                0.602  reached 0.948  never-seen 133  tracked 180  full won:lost 59:57 p=0.9261  p_holm=1.000
+- robot sensitivity                                  0.617  reached 0.970  never-seen 132  tracked 164  full won:lost 85:92 p=0.6521  p_holm=1.000
+- state covariance                                   0.620  reached 0.992  never-seen 120  tracked 180  full won:lost 82:91 p=0.5432  p_holm=1.000

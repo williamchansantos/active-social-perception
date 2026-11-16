@@ -1,0 +1,47 @@
+300 episodes (Zara01 + Zara02, seed 11); first contacts per method
+
+Where they were 2 s before contact (relative to the robot's heading)
+method      contacts           front         oblique            side          behind
+proposed         116     26 ( 22%)     25 ( 22%)     42 ( 36%)     23 ( 20%)
+infogain         142     28 ( 20%)     40 ( 28%)     52 ( 37%)     22 ( 15%)
+nearest          157     36 ( 23%)     45 ( 29%)     47 ( 30%)     29 ( 18%)
+fixed            199     16 (  8%)     30 ( 15%)     86 ( 43%)     67 ( 34%)
+360               45      8 ( 18%)      5 ( 11%)     22 ( 49%)     10 ( 22%)
+
+Left or right of the robot 2 s before contact
+method      contacts            left           right
+proposed         116     66 ( 57%)     50 ( 43%)
+infogain         142     60 ( 42%)     82 ( 58%)
+nearest          157     74 ( 47%)     83 ( 53%)
+fixed            199     95 ( 48%)    104 ( 52%)
+360               45     23 ( 51%)     22 ( 49%)
+
+Relative motion at contact (pedestrian velocity in the robot frame)
+method      contacts         head-on        crossing  same direction        standing
+proposed         116     37 ( 32%)     64 ( 55%)     14 ( 12%)      0 (  0%)
+infogain         142     37 ( 26%)     89 ( 63%)     11 (  8%)      1 (  1%)
+nearest          157     37 ( 24%)     99 ( 63%)     15 ( 10%)      5 (  3%)
+fixed            199     30 ( 15%)    138 ( 69%)     25 ( 13%)      5 (  3%)
+360               45     14 ( 31%)     23 ( 51%)      6 ( 13%)      1 (  2%)
+
+Detection
+method      contacts           never late (<=2 steps)       3-5 steps        >5 steps
+proposed         116     32 ( 28%)     40 ( 34%)     30 ( 26%)     14 ( 12%)
+infogain         142     47 ( 33%)     39 ( 27%)     33 ( 23%)     23 ( 16%)
+nearest          157     88 ( 56%)     33 ( 21%)     17 ( 11%)     19 ( 12%)
+fixed            199    102 ( 51%)     34 ( 17%)     34 ( 17%)     29 ( 15%)
+360               45      1 (  2%)      6 ( 13%)     11 ( 24%)     27 ( 60%)
+
+Camera coverage 2 s before contact, spawning, and distance
+  proposed   in camera view 2 s before:  16% | spawned within 3 m:   9% | distance 2 s before: median 3.0 m | first-detection distance: median 1.8 m
+  infogain   in camera view 2 s before:  16% | spawned within 3 m:  11% | distance 2 s before: median 3.1 m | first-detection distance: median 2.1 m
+  nearest    in camera view 2 s before:   8% | spawned within 3 m:   7% | distance 2 s before: median 3.2 m | first-detection distance: median 1.9 m
+  fixed      in camera view 2 s before:  13% | spawned within 3 m:   4% | distance 2 s before: median 2.7 m | first-detection distance: median 2.5 m
+  360        in camera view 2 s before:  80% | spawned within 3 m:  13% | distance 2 s before: median 2.7 m | first-detection distance: median 3.5 m
+
+Sector x detection (contacts): never detected / late (<=2 steps) / earlier
+  proposed   front 5/10/11  |  oblique 3/9/13  |  side 15/13/14  |  behind 9/8/6
+  infogain   front 9/9/10  |  oblique 10/15/15  |  side 19/12/21  |  behind 9/3/10
+  nearest    front 21/8/7  |  oblique 27/9/9  |  side 28/10/9  |  behind 12/6/11
+  fixed      front 2/0/14  |  oblique 8/3/19  |  side 48/19/19  |  behind 44/12/11
+  360        front 0/2/6  |  oblique 1/1/3  |  side 0/2/20  |  behind 0/1/9

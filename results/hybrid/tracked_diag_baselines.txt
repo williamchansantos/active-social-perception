@@ -1,0 +1,22 @@
+600 episodes run; first contacts: 299 (129 with tracked pedestrians, 170 untracked)
+
+=== supermpc-nearest: 50 tracked-pedestrian contacts | success 0.68  collision-free 0.69  reached 0.97  steps(reached) 37.7 ===
+  planned-violation   46
+  within-risk          3
+  prediction-miss      1
+  approach: side 24, front 24, behind 2   robot speed at contact-1: median 1.20 m/s, stopped(<0.1) 7
+  constrained contacts: median one-step prediction error 0.20 m, median d2 0.3 (95% = 5.99), median kappa 1.16, slack used anywhere in horizon 47/50, median existence r 1.00
+  planned violations: steps tracked when slack first appeared: median 0 (<=2 steps: 35/46, >=5 steps: 10/46); slack appeared 3 steps before contact (median); distance then 1.7 m; robot speed then 1.20 m/s; pedestrian speed 1.20 m/s
+  late detections (34): status the step before first detection: outside FOV 25, occluded 4, beyond range 3, missed (p_D) 2  |  over the 6 steps before: outside FOV 101, beyond range 72, not in scene 15, occluded 14, missed (p_D) 2
+
+=== supermpc-infogain: 79 tracked-pedestrian contacts | success 0.69  collision-free 0.70  reached 0.95  steps(reached) 38.9 ===
+  planned-violation   73
+  within-risk          3
+  prediction-miss      2
+  execution-error      1
+  approach: front 41, side 31, behind 7   robot speed at contact-1: median 1.20 m/s, stopped(<0.1) 25
+  constrained contacts: median one-step prediction error 0.26 m, median d2 0.4 (95% = 5.99), median kappa 1.16, slack used anywhere in horizon 74/79, median existence r 1.00
+  planned violations: steps tracked when slack first appeared: median 0 (<=2 steps: 65/73, >=5 steps: 6/73); slack appeared 3 steps before contact (median); distance then 1.8 m; robot speed then 1.20 m/s; pedestrian speed 1.24 m/s
+  late detections (64): status the step before first detection: outside FOV 41, beyond range 12, missed (p_D) 6, occluded 4, not in scene 1  |  over the 6 steps before: beyond range 183, outside FOV 149, not in scene 28, missed (p_D) 12, occluded 9
+
+Examples:

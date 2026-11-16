@@ -1,0 +1,24 @@
+****************EPISODE INFO****************
+Episode name: t_eth_follow
+Building name: ETH
+Robot start: [1.5, 15.5, 0]
+Robot goal: [9.5, 1, -1.5]
+Time budget: 60.000
+Total agents in scene: 75
+****************SIMULATOR INFO****************
+Simulator refresh rate (s): 0.050
+Total duration of simulation (s): 109.763
+Num Successful agents: 6
+Num Collided agents: 0
+Num Timeout agents: 69
+****************ROBOT INFO****************
+Robot termination cause: Success
+Robot collided with 0 agent(s)
+Num commands received from joystick: 376
+Total time blocking for joystick input (s): 98.485
+Num commands executed by robot: 375
+Robot displacement (m): 16.311
+Max robot velocity (m/s): 1.200
+Max robot acceleration: 0.000
+Max robot angular velocity: -1.100
+Max robot angular acceleration: 0.000

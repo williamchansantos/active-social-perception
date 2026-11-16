@@ -1,0 +1,54 @@
+
+### base: {'fov': 100, 'range': 6.0, 'delta_unseen': 0.01}, planners ['dmpc', 'supermpc', 'supermpc-scan', 'supermpc-active']
+400 jobs to run (0 already in results/sweep\base.csv), 12 workers
+
+### du0.002: {'fov': 100, 'range': 6.0, 'delta_unseen': 0.002}, planners ['supermpc', 'supermpc-scan', 'supermpc-active']
+300 jobs to run (0 already in results/sweep\du0.002.csv), 12 workers
+
+### du0.005: {'fov': 100, 'range': 6.0, 'delta_unseen': 0.005}, planners ['supermpc', 'supermpc-scan', 'supermpc-active']
+300 jobs to run (0 already in results/sweep\du0.005.csv), 12 workers
+
+### du0.02: {'fov': 100, 'range': 6.0, 'delta_unseen': 0.02}, planners ['supermpc', 'supermpc-scan', 'supermpc-active']
+300 jobs to run (0 already in results/sweep\du0.02.csv), 12 workers
+
+### du0.05: {'fov': 100, 'range': 6.0, 'delta_unseen': 0.05}, planners ['supermpc', 'supermpc-scan', 'supermpc-active']
+300 jobs to run (0 already in results/sweep\du0.05.csv), 12 workers
+
+### range4: {'fov': 100, 'range': 4.0, 'delta_unseen': 0.01}, planners ['dmpc', 'supermpc', 'supermpc-scan', 'supermpc-active']
+400 jobs to run (0 already in results/sweep\range4.csv), 12 workers
+
+### range8: {'fov': 100, 'range': 8.0, 'delta_unseen': 0.01}, planners ['dmpc', 'supermpc', 'supermpc-scan', 'supermpc-active']
+400 jobs to run (0 already in results/sweep\range8.csv), 12 workers
+
+### fov130: {'fov': 130, 'range': 6.0, 'delta_unseen': 0.01}, planners ['dmpc', 'supermpc', 'supermpc-scan', 'supermpc-active']
+400 jobs to run (0 already in results/sweep\fov130.csv), 12 workers
+
+### wu0.5: {'fov': 100, 'range': 6.0, 'delta_unseen': 0.01, 'w_perception_unseen': 0.5}, planners ['supermpc-active']
+100 jobs to run (0 already in results/sweep\wu0.5.csv), 12 workers
+
+### wu5: {'fov': 100, 'range': 6.0, 'delta_unseen': 0.01, 'w_perception_unseen': 5.0}, planners ['supermpc-active']
+100 jobs to run (0 already in results/sweep\wu5.csv), 12 workers
+
+### wp0.5: {'fov': 100, 'range': 6.0, 'delta_unseen': 0.01, 'w_perception': 0.5}, planners ['supermpc-active']
+100 jobs to run (0 already in results/sweep\wp0.5.csv), 12 workers
+
+### wp5: {'fov': 100, 'range': 6.0, 'delta_unseen': 0.01, 'w_perception': 5.0}, planners ['supermpc-active']
+100 jobs to run (0 already in results/sweep\wp5.csv), 12 workers
+
+Tuning set: seed 1. Gap = paired success difference vs SupeR-MPC active; a:b = episodes only active / only the other succeeded.
+config        n  active   fixed    scan    dmpc  gap vs fixed     a:b      p  gap vs best other  unseen coll-steps fixed/active
+base        100    0.86    0.75    0.79    0.61         +0.11    20:9  0.061              +0.07                        27.0/9.0
+du0.002     100    0.80    0.73    0.77    0.61         +0.07    15:8  0.210              +0.03                        24.0/6.0
+du0.005     100    0.77    0.69    0.73    0.61         +0.08   19:11  0.200              +0.04                        36.0/9.0
+du0.02      100    0.83    0.68    0.78    0.61         +0.15    24:9  0.014              +0.05                       32.0/10.0
+du0.05      100    0.74    0.68    0.80    0.61         +0.06   19:13  0.377              -0.06                       43.0/23.0
+range4      100    0.71    0.69    0.63    0.62         +0.02   19:17  0.868              +0.02                       36.0/18.0
+range8      100    0.82    0.78    0.72    0.67         +0.04   19:15  0.608              +0.04                        14.0/9.0
+fov130      100    0.87    0.76    0.80    0.62         +0.11    17:6  0.035              +0.07                        26.0/1.0
+wu0.5       100    0.84    0.75    0.79    0.61         +0.09    17:8  0.108              +0.05                        27.0/9.0
+wu5         100    0.80    0.75    0.79    0.61         +0.05   18:13  0.473              +0.01                        27.0/4.0
+wp0.5       100    0.79    0.75    0.79    0.61         +0.04   17:13  0.585              +0.00                       27.0/11.0
+wp5         100    0.82    0.75    0.79    0.61         +0.07   18:11  0.265              +0.03                       27.0/10.0
+
+Ranked by gap vs fixed: du0.02 (+0.15), fov130 (+0.11), base (+0.11), wu0.5 (+0.09), du0.005 (+0.08), du0.002 (+0.07), wp5 (+0.07), du0.05 (+0.06), wu5 (+0.05), wp0.5 (+0.04), range8 (+0.04), range4 (+0.02)
+12 configurations compared on one tuning set: confirm the chosen one on fresh episodes.

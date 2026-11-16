@@ -1,0 +1,19 @@
+Crowd-density exploration (option 2), calibration episodes, closed loop (20 per scene per condition)
+variant              |  A: NLL  ratio  succ   pan |  B: NLL  ratio  succ   pan |  A+B NLL
+current              |  0.9545   1.10  0.79  37.1 |  0.9648   0.68  0.80  35.5 |   1.9193
+weak prior           |  1.0045   0.92  0.75  34.7 |  1.0817   0.68  0.76  33.1 |   2.0863
+weak + explore 10    |  0.9320   1.00  0.76  38.6 |  1.0582   0.67  0.70  34.3 |   1.9902
+weak + explore 50    |  0.9544   0.93  0.79  43.9 |  1.0544   0.66  0.71  39.4 |   2.0087
+weak + explore 200   |  0.8790   0.95  0.71  50.0 |  0.9987   0.66  0.75  44.2 |   1.8778
+-> chosen (lowest A+B NLL among variants within 3 points of the weak prior's success): weak + explore 200
+
+=== Interpretation (added after the run)
+- The pre-set rule picked "weak + explore 200", but its NLL advantage is NOT comparable across variants: in closed
+  loop each variant's gaze changes which cells are outside the view and which counts are scored, so the scored
+  quantity differs between variants (unlike the offline replays, where the robot's path and views were fixed).
+- The like-for-like indicator, expected/true untracked ratio under the controlled shift (B), is unchanged by
+  exploration: 0.68 (current), 0.68 (weak prior), 0.66-0.67 (with exploration). Exploration does not fix the
+  density underestimate.
+- Success (excl. spawn), 80 episodes per cell (SE ~5 points): current 0.79/0.80, weak prior 0.75/0.76, explore 200
+  0.71/0.75; a downward trend, not significant at this size.
+- Conclusion: option 2 not adopted.

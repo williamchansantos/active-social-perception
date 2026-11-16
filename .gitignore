@@ -1,2 +1,23 @@
 __pycache__/
 *.pyc
+# licensed body-model files and an older copy of the project
+SMPL_maya/
+active-social-perception-main/
+logs/
+# large generated outputs (kept on disk, not versioned)
+plots/
+*.gif
+*.npz
+!checkpoints/*.npz
+results/**/*.log
+results/**/frames/
+results/socnav/**/*.json
+!results/socnav/**/*.collisions.json
+socnav_bridge/cache/
+paper/**/*.aux
+paper/**/*.log
+paper/**/*.out
+paper/**/build.log
+paper/overleaf/
+results/ppp_calibration/logs.pkl
+results/ppp_calibration/thinned/

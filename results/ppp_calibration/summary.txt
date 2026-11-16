@@ -1,0 +1,82 @@
+Calibration of the PMB Poisson part: 160 calibration episodes (2nd quarter, prior from the 1st), 240 test episodes (seed 61)
+
+1. Detection of untracked pedestrians inside the camera cone (calibration episodes):
+  0-1 m: detected 1.000 of 18; the filter assumed 0.750
+  1-2 m: detected 0.846 of 52; the filter assumed 0.865
+  2-3 m: detected 0.697 of 152; the filter assumed 0.722
+  3-4 m: detected 0.709 of 344; the filter assumed 0.696
+  pooled: measured 0.728, assumed 0.720  ->  p_detect_model = 0.728
+
+2. Refill rate, fitted by NB likelihood on the calibration episodes (p_detect_model fixed):
+  relax 0.000: NLL near/outside view 0.9113, disk forecast 0.0657, sum 0.9770
+  relax 0.002: NLL near/outside view 0.9115, disk forecast 0.0659, sum 0.9774
+  relax 0.005: NLL near/outside view 0.9125, disk forecast 0.0659, sum 0.9784
+  relax 0.010: NLL near/outside view 0.9128, disk forecast 0.0660, sum 0.9788
+  relax 0.020: NLL near/outside view 0.9171, disk forecast 0.0664, sum 0.9835
+  relax 0.030: NLL near/outside view 0.9204, disk forecast 0.0666, sum 0.9870
+  relax 0.050: NLL near/outside view 0.9290, disk forecast 0.0672, sum 0.9962
+  relax 0.080: NLL near/outside view 0.9421, disk forecast 0.0682, sum 1.0102
+  relax 0.120: NLL near/outside view 0.9574, disk forecast 0.0692, sum 1.0266
+  relax 0.200: NLL near/outside view 0.9832, disk forecast 0.0707, sum 1.0540
+  -> relax = 0.0
+
+3. Test episodes (seed 61; nothing fitted on them):
+--- uncalibrated (as in the paper)
+  near the robot outside the view: expected 0.730 untracked, true 1.116 (ratio 0.65); NLL 1.3922
+  collision-disk forecast: mean predicted P(>=1) 0.0161 vs observed 0.0251 (ratio 0.64); Brier 0.02387; NLL 0.1172
+     predicted bin       n  predicted  observed
+  [0.000, 0.005)   30583     0.0011    0.0010
+  [0.005, 0.010)    8869     0.0073    0.0153
+  [0.010, 0.020)   10641     0.0145    0.0345
+  [0.020, 0.050)   13773     0.0321    0.0526
+  [0.050, 0.100)    5304     0.0665    0.0809
+  [0.100, 0.200)     557     0.1229    0.1095
+  [0.200, 0.500)      25     0.2393    0.0400
+--- detection only (p = 0.728)
+  near the robot outside the view: expected 0.820 untracked, true 1.119 (ratio 0.73); NLL 1.3568
+  collision-disk forecast: mean predicted P(>=1) 0.0183 vs observed 0.0251 (ratio 0.73); Brier 0.02388; NLL 0.1165
+     predicted bin       n  predicted  observed
+  [0.000, 0.005)   28146     0.0010    0.0005
+  [0.005, 0.010)    8253     0.0074    0.0124
+  [0.010, 0.020)   11095     0.0146    0.0315
+  [0.020, 0.050)   15067     0.0323    0.0461
+  [0.050, 0.100)    6308     0.0668    0.0812
+  [0.100, 0.200)     846     0.1270    0.0887
+  [0.200, 0.500)      37     0.2412    0.0270
+--- refill only (relax = 0.0)
+  near the robot outside the view: expected 0.730 untracked, true 1.116 (ratio 0.65); NLL 1.3922
+  collision-disk forecast: mean predicted P(>=1) 0.0161 vs observed 0.0251 (ratio 0.64); Brier 0.02387; NLL 0.1172
+     predicted bin       n  predicted  observed
+  [0.000, 0.005)   30583     0.0011    0.0010
+  [0.005, 0.010)    8869     0.0073    0.0153
+  [0.010, 0.020)   10641     0.0145    0.0345
+  [0.020, 0.050)   13773     0.0321    0.0526
+  [0.050, 0.100)    5304     0.0665    0.0809
+  [0.100, 0.200)     557     0.1229    0.1095
+  [0.200, 0.500)      25     0.2393    0.0400
+--- calibrated (p = 0.728, relax = 0.0)
+  near the robot outside the view: expected 0.820 untracked, true 1.119 (ratio 0.73); NLL 1.3568
+  collision-disk forecast: mean predicted P(>=1) 0.0183 vs observed 0.0251 (ratio 0.73); Brier 0.02388; NLL 0.1165
+     predicted bin       n  predicted  observed
+  [0.000, 0.005)   28146     0.0010    0.0005
+  [0.005, 0.010)    8253     0.0074    0.0124
+  [0.010, 0.020)   11095     0.0146    0.0315
+  [0.020, 0.050)   15067     0.0323    0.0461
+  [0.050, 0.100)    6308     0.0668    0.0812
+  [0.100, 0.200)     846     0.1270    0.0887
+  [0.200, 0.500)      37     0.2412    0.0270
+
+=== Interpretation (added after the run; calibration episodes only, test set untouched)
+- The replay reproduces the live measurement exactly (results/ppp_accuracy), so the offline replay is faithful.
+- Detection: measured 0.728 vs the filter's assumed 0.720 (0.9 x its occlusion model): ALREADY CALIBRATED.
+  The "detection only" / "calibrated" variants above are INVALID: p_detect_model replaces the base 0.9, to which
+  the filter's occlusion model is applied again (effective ~0.58), which the measurement does not support. The
+  consistent base value is 0.9 x 0.728 / 0.720 = 0.91, i.e. no change.
+- Refill: the likelihood worsens monotonically with relax -> 0 (no change).
+- On the calibration episodes the filter is NOT biased low: near the robot outside the view it expects 0.585
+  untracked pedestrians per step vs 0.532 true (0.463 never detected + 0.069 detected before and pruned).
+- Cause of the test-set underestimate: crowd-density shift. Pedestrians per frame, 2nd half / 1st half of each
+  recording: zara01 1.14x, zara02 1.53x, eth 2.27x, hotel 1.66x (Q2/Q1: 0.71, 1.08, 0.91, 0.80). The prior is fitted
+  on the 1st half and the test episodes are in the 2nd; the online crowd multiplier recovers only part of the shift.
+- Minor: 58% of the tracks pruned for low existence (171 on calibration episodes) belonged to people still present;
+  they are recycled with their residual existence (~0.05) only.

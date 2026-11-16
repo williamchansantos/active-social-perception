@@ -1,0 +1,25 @@
+****************EPISODE INFO****************
+Episode name: t_ETH2
+Building name: ETH
+Robot start: [12, 15, 1.5]
+Robot goal: [6, 2, -1.5]
+Time budget: 60.000
+Total agents in scene: 32
+****************SIMULATOR INFO****************
+Simulator refresh rate (s): 0.050
+Total duration of simulation (s): 190.397
+Num Successful agents: 10
+Num Collided agents: 3
+Num Timeout agents: 19
+****************ROBOT INFO****************
+Robot termination cause: Success
+Robot collided with 3 agent(s)
+Collided with: prerec_0003,prerec_0004,prerec_0003
+Num commands received from joystick: 560
+Total time blocking for joystick input (s): 167.621
+Num commands executed by robot: 554
+Robot displacement (m): 14.334
+Max robot velocity (m/s): 1.200
+Max robot acceleration: 0.000
+Max robot angular velocity: -1.100
+Max robot angular acceleration: 0.000

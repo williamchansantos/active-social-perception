@@ -1,0 +1,16 @@
+held-out prediction, second half, 8 observed -> 8 predicted (3.2 s)
+scene    set       windows    ADE    FDE  CV ADE  in 95% at 3.2 s
+zara01   loo          1447   0.41   0.81    0.26              81%
+zara01   loorot       1447   0.33   0.67    0.26              99%
+zara02   loo          4094   0.30   0.56    0.20              86%
+zara02   loorot       4094   0.30   0.60    0.20              97%
+eth      loo          2760   0.94   1.83    0.47              48%
+eth      loorot       2760   0.45   0.87    0.47              96%
+hotel    loo          1218   0.33   0.62    0.30              88%
+hotel    loorot       1218   0.27   0.49    0.30              97%
+univ     loo          5938   0.42   0.79    0.45              64%
+univ     loorot       5938   0.38   0.72    0.45              75%
+
+ETH rotated 90 deg (a rotation-invariant model scores the same either way):
+  loo      as recorded ADE 0.94 (in 95% 48%) | rotated ADE 0.47 (in 95% 62%)
+  loorot   as recorded ADE 0.45 (in 95% 96%) | rotated ADE 0.42 (in 95% 94%)

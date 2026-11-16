@@ -1,0 +1,10 @@
+=== PART B: SocNavBench, RGB-D vision, seeds 7-16 (300 runs of the proposed method)
+proposed: success 0.657 (all coll. 0.513), collisions 251
+
+PRIMARY: proposed > alternative (one-sided episode-level permutation test, Holm over three)
+  vs decoupled  success 0.633 (all coll. 0.537, collisions 251); difference +0.023 [95% cluster-bootstrap CI -0.060, +0.103]  p_perm = 0.2859  p_Holm = 0.2859  (n = 300)
+      secondary: pooled McNemar 56:49 p = 0.2792; all collisions 47:54 p = 0.7869
+  vs infogain   success 0.603 (all coll. 0.480, collisions 312); difference +0.053 [95% cluster-bootstrap CI -0.013, +0.123]  p_perm = 0.0829  p_Holm = 0.1658  (n = 300)
+      secondary: pooled McNemar 61:45 p = 0.07239; all collisions 60:50 p = 0.1955
+  vs fixed      success 0.567 (all coll. 0.447, collisions 314); difference +0.090 [95% cluster-bootstrap CI +0.013, +0.167]  p_perm = 0.0186  p_Holm = 0.0558  (n = 300)
+      secondary: pooled McNemar 67:40 p = 0.005799; all collisions 64:44 p = 0.03351

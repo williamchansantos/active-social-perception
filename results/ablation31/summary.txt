@@ -1,0 +1,17 @@
+600 paired episodes (Zara01 + Zara02, seed 31, 60 deg FOV)
+
+variant                                             success [95% CI]  reached  steps  never-seen eps  tracked eps | full won:lost   p        never-seen full:abl  p
+FULL METHOD                                      0.663 [0.62,0.70]    0.970   38.8             131          130
+open-loop unseen constraint (previous method)    0.638 [0.60,0.68]    0.970   39.8             127          138 | 108:93   0.3234    90:86   0.8212
+no unseen-pedestrian constraint                  0.605 [0.57,0.64]    0.953   38.6             144          156 | 111:76   0.0127    78:91   0.3560
+no unseen-pedestrian perception term             0.617 [0.58,0.65]    0.963   37.4             164          126 | 109:81   0.0499    66:99   0.0125
+no tracked-pedestrian perception term            0.637 [0.60,0.67]    0.958   39.8             114          163 |  93:77   0.2499    82:65   0.1868
+fixed camera (no active gaze)                    0.573 [0.53,0.61]    0.960   39.1             201          139 | 126:72   0.0002    63:133  0.0000
+plain Kalman tracker (no PMB)                    0.545 [0.50,0.58]    0.802   46.1             188           61 | 145:74   0.0000    82:139  0.0002
+stale-track fix removed (prune 2.5 m)            0.610 [0.57,0.65]    0.905   42.3             116          139 |  79:47   0.0055    62:47   0.1797
+no existence weighting                           0.617 [0.58,0.65]    0.962   39.3             134          162 |  74:46   0.0134    54:57   0.8496
+no robot sensitivity                             0.627 [0.59,0.66]    0.975   37.3             125          153 | 105:83   0.1254    78:72   0.6832
+no predicted-state covariance                    0.613 [0.57,0.65]    1.000   28.1             118          183 | 111:81   0.0361    83:70   0.3320
+
+Holm-corrected p (success, over all ablations): plain Kalman tracker (no PMB): 0.000; fixed camera (no active gaze): 0.001; stale-track fix removed (prune 2.5 m): 0.044; no unseen-pedestrian constraint: 0.089; no existence weighting: 0.089; no predicted-state covariance: 0.180; no unseen-pedestrian perception term: 0.199; no robot sensitivity: 0.376; no tracked-pedestrian perception term: 0.500; open-loop unseen constraint (previous method): 0.500
+(full won:lost = episodes only the full method / only the ablation succeeded; never-seen full:abl = episodes with a never-seen collision only in the full method / only in the ablation)

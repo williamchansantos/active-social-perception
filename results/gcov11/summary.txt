@@ -1,0 +1,32 @@
+
+=== ZARA (seed 11, 600 paired episodes, 60 deg)
+method     cov model     success [95% CI]  zara01  zara02  reached  steps  never-seen  tracked
+proposed   predictor  0.630 [0.59,0.67]   0.717   0.543    0.960   37.8         126      146
+infogain   predictor  0.633 [0.59,0.67]   0.717   0.550    0.962   38.1         154      128
+nearest    predictor  0.540 [0.50,0.58]   0.620   0.460    0.942   39.3         223      115
+fixed      predictor  0.553 [0.51,0.59]   0.680   0.427    0.908   37.5         213      130
+proposed   cv         0.598 [0.56,0.64]   0.667   0.530    0.938   39.4         120      173
+infogain   cv         0.572 [0.53,0.61]   0.647   0.497    0.940   40.4         170      152
+  paired success (a:b = only the first / only the second succeeded):
+    proposed/predictor vs proposed/cv: 107:88 p=0.197
+    infogain/predictor vs infogain/cv: 119:82 p=0.011
+    proposed/predictor vs infogain/predictor: 100:102 p=0.944
+    proposed/cv vs infogain/cv: 119:103 p=0.314
+    proposed/predictor vs nearest/predictor: 132:78 p=0.000
+    proposed/predictor vs fixed/predictor: 123:77 p=0.001
+
+=== ETH (seed 11, 600 paired episodes, 60 deg)
+method     cov model     success [95% CI]     eth   hotel  reached  steps  never-seen  tracked
+proposed   predictor  0.638 [0.60,0.68]   0.630   0.647    0.982   30.8         147      124
+infogain   predictor  0.635 [0.60,0.67]   0.670   0.600    0.982   30.6         157      106
+nearest    predictor  0.602 [0.56,0.64]   0.607   0.597    0.978   31.1         216       66
+fixed      predictor  0.600 [0.56,0.64]   0.593   0.607    0.952   30.5         212       96
+proposed   cv         0.630 [0.59,0.67]   0.647   0.613    0.975   32.0         151      120
+infogain   cv         0.638 [0.60,0.68]   0.647   0.630    0.975   31.5         171       90
+  paired success (a:b = only the first / only the second succeeded):
+    proposed/predictor vs proposed/cv: 69:64 p=0.729
+    infogain/predictor vs infogain/cv: 59:61 p=0.927
+    proposed/predictor vs infogain/predictor: 80:78 p=0.937
+    proposed/cv vs infogain/cv: 66:71 p=0.733
+    proposed/predictor vs nearest/predictor: 91:69 p=0.097
+    proposed/predictor vs fixed/predictor: 92:69 p=0.083

@@ -1,0 +1,30 @@
+=== val30: success excluding collisions with pedestrians younger than 2 s
+
+--- simulated camera on ground truth
+method       n success(all coll) success excl. spawn
+proposed    30              0.53                0.53
+infogain    30              0.53                0.53
+nearest     30              0.33                0.37
+fixed       30              0.37                0.43
+360         30              0.67                0.73
+  excl. spawn: proposed vs infogain  won:lost 4:4  p = 1.000
+  excl. spawn: proposed vs nearest   won:lost 8:3  p = 0.227
+  excl. spawn: proposed vs fixed     won:lost 5:2  p = 0.453
+
+--- RGB-D vision
+method       n success(all coll) success excl. spawn
+proposed    30              0.53                0.57
+infogain    30              0.50                0.57
+nearest     30              0.20                0.30
+fixed       30              0.27                0.30
+  excl. spawn: proposed vs infogain  won:lost 5:5  p = 1.000
+  excl. spawn: proposed vs nearest   won:lost 9:1  p = 0.021
+  excl. spawn: proposed vs fixed     won:lost 9:1  p = 0.021
+
+--- cost of real perception, excl. spawn (gt -> vision)
+  proposed  0.53 -> 0.57  (gt better:vision better 3:4, p = 1.000)
+  infogain  0.53 -> 0.57  (gt better:vision better 3:4, p = 1.000)
+  nearest   0.37 -> 0.30  (gt better:vision better 2:0, p = 0.500)
+  fixed     0.43 -> 0.30  (gt better:vision better 5:1, p = 0.219)
+
+checks: distance-based collisions agree with SocNavBench's count (any vs none) in 95.2% of 270 episodes

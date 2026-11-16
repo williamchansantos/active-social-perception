@@ -1,0 +1,54 @@
+====================================================================================================
+A. 2D REPLAYS, Zara01+Zara02, seed 53, 600 paired episodes (60 deg FOV, 4 m) -- pre-registered
+====================================================================================================
+PRIMARY METRIC: success (all collisions); secondary: excl. spawn
+gaze                success  excl. spawn  never-seen coll.  tracked coll.
+proposed              0.658        0.682               278            217
+information gain      0.662        0.682               268            202
+look-at-nearest       0.585        0.598               614            172
+fixed                 0.555        0.567               652            194
+gaze oracle           0.662        0.685               184            301
+360 camera            0.840        0.855                 9            113
+  PRIMARY proposed vs look-at-nearest  won:lost 127:83  p = 0.0015  p_Holm = 0.0029
+  PRIMARY proposed vs information gain won:lost 90:92  p = 0.9409  p_Holm = 0.9409
+  secondary proposed vs fixed          won:lost 132:70  p = 7.666e-06
+  secondary proposed vs gaze oracle    won:lost 102:104  p = 0.9445
+  secondary proposed vs 360 camera     won:lost 53:162  p = 4.94e-14
+
+====================================================================================================
+B. SOCNAVBENCH, RGB-D VISION, final method, seeds 1-6 pooled (180 paired episode-seeds) -- post hoc
+====================================================================================================
+gaze                success  excl. spawn  collisions
+proposed              0.533        0.639         149
+information gain      0.428        0.550         194
+fixed                 0.417        0.517         187
+  proposed vs information gain +0.106 [95% cluster-bootstrap CI +0.000, +0.211]; pooled won:lost 41:22 p = 0.0113; episodes better:worse 12:6 p = 0.1189
+  proposed vs fixed            +0.117 [95% cluster-bootstrap CI +0.044, +0.194]; pooled won:lost 37:16 p = 0.0027; episodes better:worse 15:5 p = 0.0207
+  seeds 1-3: proposed 0.578, information gain 0.444, fixed 0.433; vs information gain 21:9 p=0.021; vs fixed 19:6 p=0.007  (pre-registered H1/H2 were run with the coupled variant)
+  seeds 4-6: proposed 0.489, information gain 0.411, fixed 0.400; vs information gain 20:13 p=0.148; vs fixed 18:10 p=0.092  (pre-registered, final method)
+
+====================================================================================================
+C. SOCNAVBENCH, SIMULATED CAMERA ON TRUE POSITIONS, final method, seeds 4-6 (90 paired)
+====================================================================================================
+gaze                success  excl. spawn  collisions
+proposed              0.544        0.589          66
+information gain      0.522        0.611          78
+fixed                 0.456        0.522          87
+  proposed vs information gain won:lost 21:19  p = 0.8746 (two-sided)
+  proposed vs fixed            won:lost 19:11  p = 0.2005 (two-sided)
+
+====================================================================================================
+D. SOCNAVBENCH VISION ABLATIONS (full method incl. coupling, seeds 1-3, 90 paired), success (all collisions)
+====================================================================================================
+full method: success (all collisions) 0.522 (excl. spawn 0.700)
+removed component                                           success excl. sp  full won:lost       p  p_Holm
+- track state covariance in predictions                       0.433    0.522      19:11      0.2005  1.0000
+- tracked term of the gaze cost                               0.467    0.611      15:10      0.4244  1.0000
+- PMB tracker (plain Kalman tracker)                          0.500    0.567      20:18      0.8714  1.0000
+- active gaze (fixed camera)                                  0.511    0.611      14:13      1.0000  1.0000
+- robot uncertainty propagation                               0.522    0.622      17:17      1.0000  1.0000
+- unseen-pedestrian chance constraint                         0.556    0.667       8:11      0.6476  1.0000
+- stale-track pruning (prune at 2.5 m)                        0.556    0.678       8:11      0.6476  1.0000
+- unseen term of the gaze cost                                0.567    0.700      15:19      0.6076  1.0000
+- observation-aware coupling (open-loop unseen constraint)    0.578    0.689      15:20      0.4996  1.0000
+- existence weighting                                         0.589    0.689       9:15      0.3075  1.0000

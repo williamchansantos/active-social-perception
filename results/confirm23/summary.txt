@@ -1,0 +1,21 @@
+600 paired episodes (zara01, zara02)
+
+planner                                                        success [95% CI]  zara01  zara02  reached coll-free  steps  method:other       p  p_holm
+Proposed: risk-aware gaze + observation-aware constraint   0.717 [0.68,0.75]   0.807   0.627    0.970     0.725   38.5             -       -       -
+Fixed camera + observation-aware constraint                0.645 [0.61,0.68]   0.773   0.517    0.943     0.662   40.1        115:72  0.0020  0.0184
+Information gain + observation-aware constraint            0.712 [0.67,0.75]   0.790   0.633    0.963     0.718   37.3         84:81  0.8763  1.0000
+360 camera + observation-aware constraint (oracle)         0.837 [0.80,0.86]   0.880   0.793    0.972     0.843   38.1        48:120  0.0000       -
+D-MPC (fixed camera)                                       0.632 [0.59,0.67]   0.720   0.543    1.000     0.632   26.0        118:67  0.0002  0.0022
+SupeR-MPC, fixed camera                                    0.665 [0.63,0.70]   0.797   0.533    0.900     0.683   39.3        105:74  0.0247  0.1727
+SupeR-MPC, scanning camera                                 0.650 [0.61,0.69]   0.730   0.570    0.943     0.663   41.5        116:76  0.0048  0.0380
+SupeR-MPC, look at nearest                                 0.675 [0.64,0.71]   0.767   0.583    0.967     0.682   38.1        107:82  0.0806  0.4835
+SupeR-MPC, information gain                                0.697 [0.66,0.73]   0.773   0.620    0.970     0.702   38.0         90:78  0.3961  1.0000
+SupeR-MPC, risk-aware gaze (previous method)               0.692 [0.65,0.73]   0.773   0.610    0.960     0.702   37.7        100:85  0.3033  1.0000
+Gaze oracle: same camera, ground-truth pointing            0.745 [0.71,0.78]   0.833   0.657    0.932     0.773   43.0        84:101  0.2394       -
+360 camera (oracle)                                        0.880 [0.85,0.90]   0.900   0.860    0.978     0.888   38.5        35:133  0.0000       -
+Perfect perception (oracle)                                0.903 [0.88,0.92]   0.927   0.880    0.980     0.908   31.9        32:144  0.0000       -
+Fixed camera, old stale-track threshold (2.5 m)            0.597 [0.56,0.64]   0.710   0.483    0.732     0.703   42.1        138:66  0.0000  0.0000
+Information gain, old stale-track threshold                0.677 [0.64,0.71]   0.777   0.577    0.935     0.705   40.1        101:77  0.0844  0.4835
+Risk-aware gaze, old stale-track threshold                 0.695 [0.66,0.73]   0.777   0.613    0.917     0.725   41.0         96:83  0.3698  1.0000
+
+Gap closed from fixed camera to 360 camera: 24%; to the gaze oracle: 65%

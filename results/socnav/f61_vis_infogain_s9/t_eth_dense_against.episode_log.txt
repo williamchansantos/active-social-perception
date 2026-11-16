@@ -1,0 +1,25 @@
+****************EPISODE INFO****************
+Episode name: t_eth_dense_against
+Building name: ETH
+Robot start: [5, 1, 1.5]
+Robot goal: [12.5, 15.5, 0]
+Time budget: 60.000
+Total agents in scene: 66
+****************SIMULATOR INFO****************
+Simulator refresh rate (s): 0.050
+Total duration of simulation (s): 139.474
+Num Successful agents: 10
+Num Collided agents: 2
+Num Timeout agents: 54
+****************ROBOT INFO****************
+Robot termination cause: Success
+Robot collided with 2 agent(s)
+Collided with: prerec_0000,prerec_0006
+Num commands received from joystick: 312
+Total time blocking for joystick input (s): 125.857
+Num commands executed by robot: 312
+Robot displacement (m): 16.047
+Max robot velocity (m/s): 1.200
+Max robot acceleration: 0.000
+Max robot angular velocity: -1.100
+Max robot angular acceleration: 0.000

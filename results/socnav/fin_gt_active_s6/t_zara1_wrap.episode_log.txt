@@ -1,0 +1,24 @@
+****************EPISODE INFO****************
+Episode name: t_zara1_wrap
+Building name: Zara
+Robot start: [2, 2, 1.8]
+Robot goal: [17.5, 13, 0]
+Time budget: 50.000
+Total agents in scene: 26
+****************SIMULATOR INFO****************
+Simulator refresh rate (s): 0.050
+Total duration of simulation (s): 47.055
+Num Successful agents: 13
+Num Collided agents: 0
+Num Timeout agents: 13
+****************ROBOT INFO****************
+Robot termination cause: Success
+Robot collided with 0 agent(s)
+Num commands received from joystick: 616
+Total time blocking for joystick input (s): 28.361
+Num commands executed by robot: 609
+Robot displacement (m): 18.710
+Max robot velocity (m/s): 1.200
+Max robot acceleration: 0.000
+Max robot angular velocity: -1.100
+Max robot angular acceleration: 0.000

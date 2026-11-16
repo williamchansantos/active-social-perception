@@ -1,0 +1,25 @@
+****************EPISODE INFO****************
+Episode name: t_zara1_dense_cross
+Building name: Zara
+Robot start: [14, 13, -1.5]
+Robot goal: [14, 1, -1.5]
+Time budget: 60.000
+Total agents in scene: 38
+****************SIMULATOR INFO****************
+Simulator refresh rate (s): 0.050
+Total duration of simulation (s): 58.450
+Num Successful agents: 0
+Num Collided agents: 2
+Num Timeout agents: 36
+****************ROBOT INFO****************
+Robot termination cause: Success
+Robot collided with 2 agent(s)
+Collided with: prerec_0003,prerec_0000
+Num commands received from joystick: 240
+Total time blocking for joystick input (s): 49.992
+Num commands executed by robot: 240
+Robot displacement (m): 11.699
+Max robot velocity (m/s): 1.200
+Max robot acceleration: 0.000
+Max robot angular velocity: -1.100
+Max robot angular acceleration: 0.000

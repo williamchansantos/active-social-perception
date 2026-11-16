@@ -88,6 +88,9 @@ def parse_args():
     p.add_argument("--grid-size", type=int, default=8)
     p.add_argument("--neighborhood-size", type=float, default=2.0)
 
+    p.add_argument("--rotate-aug", action="store_true",
+                   help="rotate every training sequence by a random angle each time it is used (the model's inputs "
+                        "are global-frame displacements, so without this it only knows the training scenes' directions)")
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     p.add_argument("--eval-every", type=int, default=1, help="run validation every N epochs")
@@ -126,6 +129,13 @@ def train(model, optimizer, train_seqs, val_seqs, args, device):
                 crop(torch.from_numpy(seq.positions).to(device), k, args.max_obs_len)
                 for seq, k in zip(batch, obs_lens)
             ]
+            if args.rotate_aug:
+                rotated = []
+                for p in batch_positions:
+                    a = random.uniform(0.0, 2 * np.pi)
+                    R = torch.tensor([[np.cos(a), -np.sin(a)], [np.sin(a), np.cos(a)]], dtype=p.dtype, device=p.device)
+                    rotated.append(p @ R.T)
+                batch_positions = rotated
             optimizer.zero_grad()
             if args.loss == "nll":
                 loss = torch.stack([sequence_nll(model, p) for p in batch_positions]).mean()

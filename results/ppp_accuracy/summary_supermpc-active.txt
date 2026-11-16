@@ -1,0 +1,25 @@
+=== supermpc-active: 240 episodes, 8719 steps
+NOW (expected vs true number of untracked pedestrians, mean per step):
+  whole scene                  expected  4.600  true  6.214  ratio  0.74
+  inside the view cone         expected  0.015  true  0.053  ratio  0.29
+  within 4 m, outside the view expected  0.730  true  1.116  ratio  0.65
+  (static prior, within 4 m outside view: expected 1.097)
+FORECAST in the 0.6 m collision disk at planned position k (no future measurements):
+   k      n  E[N] NB  true N  P>=1 NB P>=1 Poi P>=1 prior   freq  Brier NB     Poi   prior  NLL NB     Poi   prior
+   1   8719   0.0076  0.0136   0.0075   0.0062     0.0286 0.0124   0.01211 0.01212 0.01287  0.0671  0.0683  0.0740
+   2   8719   0.0094  0.0170   0.0092   0.0077     0.0288 0.0153   0.01491 0.01490 0.01548  0.0813  0.0827  0.0852
+   3   8719   0.0118  0.0214   0.0116   0.0098     0.0290 0.0193   0.01865 0.01872 0.01913  0.0975  0.1001  0.0999
+   4   8719   0.0148  0.0236   0.0144   0.0124     0.0290 0.0214   0.02074 0.02081 0.02107  0.1052  0.1074  0.1061
+   5   8719   0.0182  0.0309   0.0177   0.0154     0.0289 0.0276   0.02644 0.02651 0.02655  0.1294  0.1318  0.1285
+   6   8719   0.0215  0.0376   0.0209   0.0184     0.0286 0.0327   0.03098 0.03110 0.03091  0.1495  0.1528  0.1474
+   7   8719   0.0238  0.0417   0.0230   0.0206     0.0281 0.0361   0.03385 0.03391 0.03377  0.1578  0.1603  0.1575
+   8   8719   0.0252  0.0403   0.0243   0.0219     0.0275 0.0358   0.03331 0.03346 0.03344  0.1503  0.1533  0.1513
+RELIABILITY of P(>=1 untracked pedestrian in the disk), negative binomial, all horizons:
+     predicted bin       n  mean predicted  observed freq
+  [0.000, 0.005)   30583          0.0011         0.0010
+  [0.005, 0.010)    8869          0.0073         0.0153
+  [0.010, 0.020)   10641          0.0145         0.0345
+  [0.020, 0.050)   13773          0.0321         0.0526
+  [0.050, 0.100)    5304          0.0665         0.0809
+  [0.100, 0.200)     557          0.1229         0.1095
+  [0.200, 0.500)      25          0.2393         0.0400
