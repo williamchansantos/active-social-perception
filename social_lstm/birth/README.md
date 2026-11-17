@@ -199,3 +199,41 @@ where it stands and looks.
 * Field of view: a moving or turning robot; occlusion by nearer pedestrians.
   Use the FOV replay (scene_entry + walked_in counts per interval) as the
   target when the undetected-target intensity of a PMBM-style tracker is built.
+
+## Comparison with the lab tracker's birth map
+
+`compare_lab_birth.py` scores the birth map the lab's PMB tracker already uses
+(`ScenePrior.birth` in `robot_nav/pmb.py`: first positions on a 0.25 m grid,
+Gaussian-smoothed by 0.5 m, masked to the walkable area) with the same held-out
+protocol as `evaluate_birth.py`.
+
+    python -m social_lstm.birth.compare_lab_birth
+
+Pooled over 323 held-out arrivals (per-event likelihood ratio against the lab's
+map with a 5 % uniform floor):
+
+| model | ratio | note |
+|---|---|---|
+| uniform | 0.24 | |
+| our 0.5 m histogram | 0.43 | |
+| lab map, exact | n/a | 6 held-out arrivals have intensity exactly 0 |
+| lab map + 5 % floor | 1.00 | reference |
+| KDE, 0.5 m | 1.02 | same smoothing width as the lab: essentially the same model |
+| KDE, bandwidth per scene | 1.15 | 95 % bootstrap interval 1.07 to 1.21 |
+
+Findings:
+
+1. With the same 0.5 m smoothing the lab's map and our KDE are equivalent, as expected.
+2. Choosing the bandwidth per scene by leave-one-out likelihood on the training
+   events (0.2 m for zara01, zara02, students03; 0.35 m for seq_hotel; 0.5 m for
+   seq_eth) gives a modest gain: 1.3 to 1.55 times per event in the three UCY
+   scenes, about nothing in the two ETH scenes.
+3. The lab's exact map says 6 of 323 held-out arrivals are impossible (2 in
+   seq_eth, 4 in zara01). All six are outside the walkable mask built from the
+   training half. A small floor fixes this.
+4. Left-censoring: the lab counts pedestrians present in the first frame as
+   births. In students03 that is 42 pedestrians, and the lab's map predicts 89
+   held-out arrivals against 80 for ours; 68 actually occurred.
+
+Assumptions: all models share the lab grid's bounding box; direction channels of
+the lab map are summed; the script needs scipy because it imports the lab tracker.
