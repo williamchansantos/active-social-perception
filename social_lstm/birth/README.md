@@ -260,3 +260,33 @@ first-frame pedestrians, that calibration reaches its limit (survival = 1) in
 zara01 and students03. `recalibrate=False` keeps the lab's survival map instead,
 and `exclude_initial=False` keeps the lab's event set; both should be compared
 when the tracker accuracy is evaluated.
+
+## Tracker accuracy with our birth map
+
+`check_tracker_accuracy.py` repeats the lab's `check_ppp_accuracy.py` for several
+birth-map variants on identical trajectories: the lab's tracker drives the robot,
+and one shadow tracker per variant receives the same detections and poses.
+
+    python3 -m social_lstm.birth.check_tracker_accuracy --per-scene 60
+
+Result (240 episodes, planner supermpc-active, seed 61, lab protocol):
+
+| variant | whole scene exp/true | within 4 m outside view exp/true | forecast P(>=1) predicted / observed | forecast NLL |
+|---|---|---|---|---|
+| lab | 4.60 / 6.15 | 0.750 / 1.137 | 0.0167 / 0.0274 | 0.13512 |
+| kde | 4.61 / 6.15 | 0.741 / 1.138 | 0.0162 / 0.0274 | 0.13575 |
+| kde-labsurv | 4.53 / 6.15 | 0.732 / 1.138 | 0.0160 / 0.0274 | 0.13615 |
+| kde-keepinit | 4.61 / 6.15 | 0.751 / 1.138 | 0.0167 / 0.0274 | 0.13544 |
+
+Findings:
+
+1. The birth map makes no measurable difference to the undetected intensity. All
+   paired differences to the lab are within or at the edge of their 95 % intervals
+   and are tiny (forecast NLL changes by less than 0.5 %).
+2. All variants share one large error: the intensity is too low. It predicts about
+   75 % of the untracked pedestrians in the scene, 66 % of those near the robot
+   outside the view, and 61 % of the collision-disk events the planner's
+   constraint is about.
+3. So the limiting factor is the overall level of the intensity during an episode,
+   not the spatial shape of the birth map. This points to the time-varying /
+   context-dependent rate as the next thing to model.
