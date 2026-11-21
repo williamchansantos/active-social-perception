@@ -237,3 +237,26 @@ Findings:
 
 Assumptions: all models share the lab grid's bounding box; direction channels of
 the lab map are summed; the script needs scipy because it imports the lab tracker.
+
+## Our birth map inside the lab tracker
+
+`tracker_birth.py` builds the KDE birth intensity in the tracker's format, a
+(5, nx, ny) array of expected births per cell per frame, and
+`fit_scene_prior_kde` is a drop-in replacement for `robot_nav.pmb.fit_scene_prior`
+that swaps only that array:
+
+    from social_lstm.birth.tracker_birth import fit_scene_prior_kde
+    prior = fit_scene_prior_kde(obsmat_path, frame_range=(first, split))
+
+    python -m social_lstm.birth.tracker_birth      # side-by-side summary per scene
+
+Differences from the lab's map: bandwidth chosen per scene by leave-one-out
+likelihood, pedestrians present in the recording's first frame are not births,
+and 5 % of the rate is spread over the walkable cells so none has zero birth rate.
+
+Known side effect: the lab calibrates the survival map so that an unobserved
+scene settles at the observed occupancy. With the lower birth rate from dropping
+first-frame pedestrians, that calibration reaches its limit (survival = 1) in
+zara01 and students03. `recalibrate=False` keeps the lab's survival map instead,
+and `exclude_initial=False` keeps the lab's event set; both should be compared
+when the tracker accuracy is evaluated.
